@@ -1,0 +1,10 @@
+C:\Users\hyy\Documents\Visual Studio 2010\Projects\我要软考\我要软考\bin\Debug\我要软考.exe
+C:\Users\hyy\Documents\Visual Studio 2010\Projects\我要软考\我要软考\bin\Debug\我要软考.pdb
+C:\Users\hyy\Documents\Visual Studio 2010\Projects\我要软考\我要软考\obj\x86\Debug\我要软考.Login.resources
+C:\Users\hyy\Documents\Visual Studio 2010\Projects\我要软考\我要软考\obj\x86\Debug\我要软考.My.resources
+C:\Users\hyy\Documents\Visual Studio 2010\Projects\我要软考\我要软考\obj\x86\Debug\我要软考.Properties.Resources.resources
+C:\Users\hyy\Documents\Visual Studio 2010\Projects\我要软考\我要软考\obj\x86\Debug\我要软考1.csproj.GenerateResource.Cache
+C:\Users\hyy\Documents\Visual Studio 2010\Projects\我要软考\我要软考\obj\x86\Debug\我要软考.exe
+C:\Users\hyy\Documents\Visual Studio 2010\Projects\我要软考\我要软考\obj\x86\Debug\我要软考.pdb
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\obj\x86\Debug\我要软考.exe
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\obj\x86\Debug\我要软考.pdb
