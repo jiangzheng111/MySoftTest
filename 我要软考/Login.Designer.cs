@@ -33,6 +33,7 @@
             this.txtPwd = new System.Windows.Forms.TextBox();
             this.linkReg = new System.Windows.Forms.LinkLabel();
             this.linkRePwd = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnLogin
@@ -81,11 +82,22 @@
             this.linkRePwd.TabStop = true;
             this.linkRePwd.Text = "找回密码";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(169, 256);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "label1";
+            this.label1.Visible = false;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(418, 302);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.linkRePwd);
             this.Controls.Add(this.linkReg);
             this.Controls.Add(this.txtPwd);
@@ -105,6 +117,7 @@
         private System.Windows.Forms.TextBox txtPwd;
         private System.Windows.Forms.LinkLabel linkReg;
         private System.Windows.Forms.LinkLabel linkRePwd;
+        private System.Windows.Forms.Label label1;
     }
 }
 
