@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using UI;
 
 namespace 我要软考
 {
@@ -15,7 +16,7 @@ namespace 我要软考
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login());
+            Application.Run(new formReg());
         }
     }
 }

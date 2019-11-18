@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace 我要软考
+namespace UI
 {
-    public partial class My : Form
+    public partial class formRePwd : Form
     {
-        public My()
+        public formRePwd()
         {
             InitializeComponent();
         }

@@ -1,0 +1,7 @@
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myTool\bin\Debug\myTool.dll
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myTool\bin\Debug\myTool.pdb
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myTool\obj\Debug\myTool.dll
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myTool\obj\Debug\myTool.pdb
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myTool\bin\Debug\MODEL.dll
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myTool\bin\Debug\MODEL.pdb
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myTool\obj\Debug\myTool.csprojResolveAssemblyReference.cache
