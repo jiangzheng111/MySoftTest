@@ -56,7 +56,7 @@ namespace BLL
                     if (bll.isRight(suseremail, emailcode))
                     {
                         Suser SUSER = SQLLINK.insert(susername, suserpwd, suseremail);
-                        return TextString.successful;
+                        return TextString.emailSuccessful;
                         //return "终于成功了";
                     }
                     return TextString.emailError;
@@ -67,7 +67,7 @@ namespace BLL
             return "";
         }
 
-        public string emailCode(string suseremail)//要差一个判断邮箱是否存在
+        public string emailCode(string suseremail)//bll要差一个判断邮箱是否存在
         {
             var str = "([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,5})+";
             var a = Regex.IsMatch(suseremail, str);
@@ -78,11 +78,22 @@ namespace BLL
             return "发送成功";
         }
 
+        /// <summary>
+        /// 邮箱验证码是否匹配成功
+        /// </summary>
+        /// <param name="suseremail">邮箱</param>
+        /// <param name="emailcode">邮箱验证码</param>
+        /// <returns>bool</returns>
         public static bool isRight(string suseremail, string emailcode)
         {
-            if (emailcode == myTool.sendEmail.thisrandomcode)
+            DAL.sqlLink sqlLink = new DAL.sqlLink();
+            var a = sqlLink.isExistsEmail(suseremail);//判断邮箱是否存在
+            if (a == null)
             {
-                return true;
+                if (emailcode == myTool.sendEmail.thisrandomcode)
+                {
+                    return true;
+                }
             }
             return false;
         }

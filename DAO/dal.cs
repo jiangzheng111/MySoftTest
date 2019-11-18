@@ -23,6 +23,11 @@ namespace DAL
         private static string USERSELECT = "SELECT * FROM SUSER WHERE SUSERId=@suserid ";
 
         /// <summary>
+        /// 查询邮箱是否存在
+        /// </summary>
+        public static string ISEXISTSEMAIL = "SELECT SUSEREMAIL FROM SUSER WHERE SUSEREMAIL=@suseremail";
+
+        /// <summary>
         /// 增加用户账号语句
         /// </summary>
         private static string USERINSER = "INSERT INTO SUSER VALUES (@susername,@suseremail,@suserpwd)";
@@ -62,47 +67,67 @@ namespace DAL
         /// <returns>Suser用户实体类</returns>
         public Suser select(int suserid, string suserpwd)
         {
-            try
+
+            using (SqlConnection CON = new SqlConnection(sqlcon()))
             {
-                using (SqlConnection CON = new SqlConnection(sqlcon()))
+                CON.Open();
+                using (SqlCommand CMD = new SqlCommand(USERSELECT, CON))
                 {
-                    CON.Open();
-                    using (SqlCommand CMD = new SqlCommand(USERSELECT, CON))
+                    CMD.Parameters.AddWithValue("@suserid", suserid);
+                    CMD.Parameters.AddWithValue("@suserpwd", suserpwd);
+                    //CMD.Parameters.AddWithValue("@susercode",susercode);
+                    SQLDR = CMD.ExecuteReader();
+                    if (SQLDR.Read())
                     {
-                        CMD.Parameters.AddWithValue("@suserid", suserid);
-                        CMD.Parameters.AddWithValue("@suserpwd", suserpwd);
-                        //CMD.Parameters.AddWithValue("@susercode",susercode);
-                        SQLDR = CMD.ExecuteReader();
-                        if (SQLDR.Read())
-                        {
-                            SUSER.SuserId = int.Parse(SQLDR["SuserId"].ToString().Trim());
-                            SUSER.SuserPwd = SQLDR["SuserPwd"].ToString().Trim();
-                        }
-                        CON.Close();
+                        SUSER.SuserId = int.Parse(SQLDR["SuserId"].ToString().Trim());
+                        SUSER.SuserPwd = SQLDR["SuserPwd"].ToString().Trim();
                     }
+                    CON.Close();
                 }
-            }
-            catch (Exception e)
-            {
             }
             return SUSER;
         }
 
         //注册账号
-        public Suser insert(string susername, string suserpwd,string suseremail)
+        public Suser insert(string susername, string suserpwd, string suseremail)
         {
-                using (SqlConnection CON = new SqlConnection(sqlcon()))
+            using (SqlConnection CON = new SqlConnection(sqlcon()))
+            {
+                CON.Open();
+                using (SqlCommand CMD = new SqlCommand(USERINSER, CON))
                 {
-                    CON.Open();
-                    using (SqlCommand CMD = new SqlCommand(USERINSER, CON))
-                    {
-                        CMD.Parameters.AddWithValue("@susername", susername);
-                        CMD.Parameters.AddWithValue("@suserpwd", suserpwd);
-                        CMD.Parameters.AddWithValue("@suseremail", suseremail);
-                        var a=CMD.ExecuteNonQuery();//执行语句
-                    }
-                    CON.Close();
+                    CMD.Parameters.AddWithValue("@susername", susername);
+                    CMD.Parameters.AddWithValue("@suserpwd", suserpwd);
+                    CMD.Parameters.AddWithValue("@suseremail", suseremail);
+                    var a = CMD.ExecuteNonQuery();//执行语句
                 }
+                CON.Close();
+            }
+            return SUSER;
+        }
+
+        /// <summary>
+        /// isExistsEmail 查询邮箱是否存在
+        /// </summary>
+        /// <param name="suseremail">邮箱</param>
+        /// <returns>SUSER</returns>
+        public Suser isExistsEmail(string suseremail)
+        {
+           using(SqlConnection CON=new SqlConnection(sqlcon()))
+           {
+               CON.Open();
+                using(SqlCommand CMD=new SqlCommand(ISEXISTSEMAIL,CON)){
+                    CMD.Parameters.AddWithValue("@suseremail", suseremail);
+                    SqlDataReader SQLDR=CMD.ExecuteReader();
+                    if (SQLDR.Read())
+                    {
+                        SUSER.SuserEmail = SQLDR["SuserEmail"].ToString().Trim();
+                        SQLDR.Close();
+                    }
+                    CMD.Dispose();
+                }
+                CON.Close();
+           }
             return SUSER;
         }
 

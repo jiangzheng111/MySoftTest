@@ -12,6 +12,7 @@ namespace MODEL
     public class Suser
     {
         public int SuserId { get; set; }
+        public string SuserEmail { get; set; }
         public string SuserName { get; set; }
         public string SuserPwd { get; set; }
         public string SuserCode { get; set; }
@@ -38,7 +39,8 @@ namespace MODEL
 
         public static string regError = "输入有误";
 
-        public static string emailError = "邮箱格式错误";
+        public static string emailError = "邮箱格式错误或该邮箱已注册";
+        public static string emailSuccessful = "注册成功";
         /// <summary>
         /// 邮件服务器 smtp.qq.com
         /// </summary>
@@ -50,7 +52,10 @@ namespace MODEL
         public static string theme = "我要软考验证码";
 
         public static string subject = "我要软考--账号注册 时间 ";
-        public static string time = "  有效时间为一分钟";
+
+        public static string subhead = "请不要告诉任何人！验证码：";
+
+        public static string time = "      有效时间为一分钟";
         /// <summary>
         /// 发送的邮箱 myEmail
         /// </summary>

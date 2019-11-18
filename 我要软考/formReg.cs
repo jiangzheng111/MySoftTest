@@ -29,6 +29,9 @@ namespace UI
                 return;
             } if (!isBtnGet)
             {
+                MessageBox.Show("发送中");
+                //var a=判断邮箱是否存在（邮箱）
+                //存在则mbox（该邮箱已注册）return ，否则就执行下面的
                 timer1.Enabled = true;
                 btnReg.Enabled = true;
                 var emailTheme = MODEL.TextString.theme;
