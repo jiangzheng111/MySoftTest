@@ -34,7 +34,7 @@ namespace myTool
             MailAddress receiverAddress = new MailAddress(eMail);
             //构造一个Email的Message对象 内容信息
             MailMessage message = new MailMessage(sendAddress, receiverAddress);
-            message.Subject = TextString.subject + DateTime.Now;
+            message.Subject = TextString.subjectInsert + DateTime.Now;
             message.SubjectEncoding = Encoding.UTF8;
             message.Body = TextString.subhead + eMailContent + TextString.time;
             message.BodyEncoding = Encoding.UTF8;

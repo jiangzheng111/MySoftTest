@@ -2,4 +2,3 @@ C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\MODEL
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\MODEL\bin\Debug\MODEL.pdb
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\MODEL\obj\Debug\MODEL.dll
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\MODEL\obj\Debug\MODEL.pdb
-C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\MODEL\obj\Debug\MODEL.csprojResolveAssemblyReference.cache

@@ -36,6 +36,7 @@ namespace UI
         public void btnClose_Click(object sender, EventArgs e)
         {
             Application.Exit();
+            
         }
 
         public FormWindowState WindowState { get; set; }

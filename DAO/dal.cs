@@ -20,22 +20,22 @@ namespace DAL
         /// <summary>
         /// 用户账号查询语句
         /// </summary>
-        private static string USERSELECT = "SELECT * FROM SUSER WHERE SUSERId=@suserid ";
+        private string USERSELECT = "SELECT * FROM SUSER WHERE SuserEmail=@suseremail ";
 
         /// <summary>
         /// 查询邮箱是否存在
         /// </summary>
-        public static string ISEXISTSEMAIL = "SELECT SUSEREMAIL FROM SUSER WHERE SUSEREMAIL=@suseremail";
+        public string ISEXISTSEMAIL = "SELECT SUSEREMAIL FROM SUSER WHERE SUSEREMAIL=@suseremail";
 
         /// <summary>
         /// 增加用户账号语句
         /// </summary>
-        private static string USERINSER = "INSERT INTO SUSER VALUES (@susername,@suseremail,@suserpwd)";
+        private string USERINSER = "INSERT INTO SUSER(suseremail,suserpwd,susername) VALUES (@suseremail,@suserpwd,@susername)";
 
         /// <summary>
         /// 用户密码修改
         /// </summary>
-        private static string USERUPDATE = "UPDARE MYTEST SET SUSERPWD =@suserpwd WHERE SUSERNAME=@suserid AND SUSERCODE=@susercode";
+        private string USERUPDATE = "UPDATE SUSER SET SUSERPWD =@suserpwd WHERE SUSEREMAIL=@suseremail";
 
         /// <summary>
         /// SqlDataReader对象
@@ -46,13 +46,13 @@ namespace DAL
         /// <summary>
         /// 实例化Suser
         /// </summary>
-        Suser SUSER = new Suser();
+        static Suser SUSER = new Suser();
 
         /// <summary>
         /// 连接数据库字符串
         /// </summary>
         /// <returns>sqlConnection</returns>
-        public string sqlcon()
+        public static string sqlcon()
         {
             //119.23.54.113,1433
             string sqlConnection = "SERVER=119.23.54.113,1433;uid=sa;DATABASE=myTest;pwd=1234abcdxlS;";
@@ -65,25 +65,50 @@ namespace DAL
         /// <param name="susername">用户名</param>
         /// <param name="suserpwd">密码</param>
         /// <returns>Suser用户实体类</returns>
-        public Suser select(int suserid, string suserpwd)
+        public Suser select(string suseremail, string suserpwd)
         {
-
             using (SqlConnection CON = new SqlConnection(sqlcon()))
             {
                 CON.Open();
                 using (SqlCommand CMD = new SqlCommand(USERSELECT, CON))
                 {
-                    CMD.Parameters.AddWithValue("@suserid", suserid);
+                    CMD.Parameters.AddWithValue("@suseremail", suseremail);
                     CMD.Parameters.AddWithValue("@suserpwd", suserpwd);
                     //CMD.Parameters.AddWithValue("@susercode",susercode);
                     SQLDR = CMD.ExecuteReader();
                     if (SQLDR.Read())
                     {
-                        SUSER.SuserId = int.Parse(SQLDR["SuserId"].ToString().Trim());
+                        SUSER.SuserEmail = SQLDR["SuserEmail"].ToString().Trim();
                         SUSER.SuserPwd = SQLDR["SuserPwd"].ToString().Trim();
+                        SUSER.SuserOnLine = SQLDR["SuserOnLine"].ToString().Trim();
                     }
                     CON.Close();
                 }
+            }
+            return SUSER;
+        }
+
+        //判断是否上线，上线为true，下线为false
+        //这是一个大工程，要创建服务端，这位客户端，服务端与客户端间用套接字传送信息，服务端根据连接的ip有无，从而判断用户是否下线，若下线了，则根据送过来的ip地址，和账号，把它的数据库上线状态改为false
+        public static Suser isOnLine()
+        {
+            if (SUSER.SuserOnLine == "false")
+            { SUSER.SuserOnLine = "true"; }//暂时先不是用这个功能
+            else
+            { SUSER.SuserOnLine = "false"; }
+
+            using (SqlConnection CON = new SqlConnection(sqlcon()))
+            {
+                CON.Open();
+                using (SqlCommand CMD = new SqlCommand("UPDATE SUSER SET SUSERONLINE=@suseronline where SUSEREMAIL=@suseremail", CON))
+                {
+                    CMD.Parameters.AddWithValue("@suseronline", SUSER.SuserOnLine);
+                    CMD.Parameters.AddWithValue("@suseremail", SUSER.SuserEmail);
+                    var n = CMD.ExecuteNonQuery();
+                    CMD.Dispose();
+                }
+                CON.Close();
+
             }
             return SUSER;
         }
@@ -113,27 +138,45 @@ namespace DAL
         /// <returns>SUSER</returns>
         public Suser isExistsEmail(string suseremail)
         {
-           using(SqlConnection CON=new SqlConnection(sqlcon()))
-           {
-               CON.Open();
-                using(SqlCommand CMD=new SqlCommand(ISEXISTSEMAIL,CON)){
+            using (SqlConnection CON = new SqlConnection(sqlcon()))
+            {
+                CON.Open();
+                using (SqlCommand CMD = new SqlCommand(ISEXISTSEMAIL, CON))
+                {
                     CMD.Parameters.AddWithValue("@suseremail", suseremail);
-                    SqlDataReader SQLDR=CMD.ExecuteReader();
+                    SQLDR = CMD.ExecuteReader();
                     if (SQLDR.Read())
                     {
                         SUSER.SuserEmail = SQLDR["SuserEmail"].ToString().Trim();
-                        SQLDR.Close();
+                        //SQLDR.Close();
                     }
                     CMD.Dispose();
                 }
                 CON.Close();
-           }
+            }
             return SUSER;
         }
 
-        //修改密码
-        public Suser update(string susername, string suserpwd)
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="susername">邮箱</param>
+        /// <param name="suserpwd">密码</param>
+        /// <returns>SUSER</returns>
+        public Suser update(string suseremail, string suserpwd)
         {
+            using (SqlConnection CON = new SqlConnection(sqlcon()))
+            {
+                CON.Open();
+                using (SqlCommand CMD = new SqlCommand(USERUPDATE, CON))
+                {
+                    CMD.Parameters.AddWithValue("@suseremail", suseremail);
+                    CMD.Parameters.AddWithValue("@suserpwd", suserpwd);
+                    var n = CMD.ExecuteNonQuery();
+                    CMD.Dispose();
+                }
+                CON.Close();
+            }
             return SUSER;
         }
     }

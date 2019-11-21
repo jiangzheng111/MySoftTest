@@ -1,4 +1,3 @@
-C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\obj\x86\Debug\我要软考.Login.resources
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\obj\x86\Debug\UI.csproj.GenerateResource.Cache
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\bin\Debug\UI.exe
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\bin\Debug\UI.pdb
@@ -18,3 +17,6 @@ C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我�
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\obj\x86\Debug\UI.Form1.resources
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\bin\Debug\myTool.dll
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\bin\Debug\myTool.pdb
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\obj\x86\Debug\我要软考.formLogin.resources
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\obj\x86\Debug\UI.formRePwd.resources
+C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\obj\x86\Debug\MyTextBox.MyTextBox.resources

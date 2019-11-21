@@ -22,7 +22,7 @@ namespace UI
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            var a = MODEL.TextString.theme;
+            var a = MODEL.TextString.insertTheme;
             myTool.sendEmail sendEmail = new myTool.sendEmail();
             a = sendEmail.sendemail(textBox1.Text, textBox2.Text, a);
             MessageBox.Show(a);

@@ -16,46 +16,77 @@ using UI;
 //要优化代码
 namespace 我要软考
 {
-    public partial class Login : Form
+    public partial class formLogin : Form
     {
         private int btn_Click = 0; //标识是否点击
-        private int suserId = 0;
+        private string suserEmail = string.Empty;
         //private static int suserId = string.Empty;
         private static string suserPwd = string.Empty;
         string BllReturn;//存放来自BLL的返回值
         Suser MySoftTest = null; //实例实体类
 
-        public Login()
+        public formLogin()
         {
             InitializeComponent();
         }
         private void Login_Load(object sender, EventArgs e)
         {
             //btnMax.Click -= new System.EventHandler(this.miN_MAX_EXIT1.btnMax_Click);取消事件
-            txtName.TextAlign = HorizontalAlignment.Center;
-            //txtName.VerticalContentAlignment="Center;
+            txtEmail.TextAlign = HorizontalAlignment.Center;
             txtPwd.TextAlign = HorizontalAlignment.Center;
-            txtPwd.PasswordChar = '*';
-            btnMax.Enabled = false;
+            txtEmail.Text = "邮箱";
+            txtPwd.Text = "密码";
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is TextBox)
+                {
+                    ctrl.ForeColor = Color.FromArgb(193, 193, 193);
+                }
+            }
+        }
+
+        private void txtPwd_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            txtPwd.PasswordChar = '●';
+            txtPwd.Text = null;
+            txtPwd.ForeColor = Color.Black;
+
+        }
+
+        private void txtEmail_MouseClick(object sender, MouseEventArgs e)
+        {
+            txtEmail.Text = null;
+            txtEmail.ForeColor = Color.Black;
         }
 
         //验证账号
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            //txtName.Text.ToString().Trim()
-            suserId =int.Parse(txtName.Text);
+            if (bll.isEmpty(txtEmail.Text, txtPwd.Text, "false"))
+            {
+                this.Height = 347;
+                this.Width = 421;
+                textBox1.Text = "没有输入账号或密码";
+                //label1.BackColor = Color.Yellow;
+                textBox1.BackColor = Color.Yellow;
+                textBox1.ForeColor = Color.Black;
+                return;
+            }
+            suserEmail = txtEmail.Text.ToString().Trim();
             suserPwd = txtPwd.Text.ToString().Trim();
-            bll LoginBll = new bll();
-            BllReturn = LoginBll.select(suserId, suserPwd);
-
-            MessageBox.Show(BllReturn, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (BllReturn == "登录成功")
+            //bll LoginBll = new bll();
+            BllReturn = bll.selectUser(suserEmail, suserPwd);
+            textBox1.Text = BllReturn;
+            if (BllReturn == TextString.successful)
             {
                 btn_Click = 1;
                 Login_lbl();
                 MyTest mytest = new MyTest();
                 mytest.Show();
+                return;
             }
+
             #region 没有使用返回字符串的代码
             ////switch (BllReturn)
             //{
@@ -194,6 +225,7 @@ namespace 我要软考
             //Form.ActiveForm'
             formReg formreg = new formReg();
             formreg.Show();
+            this.Hide();
         }
 
         //找回密码
@@ -201,6 +233,12 @@ namespace 我要软考
         {
             formRePwd formrepwd = new formRePwd();
             formrepwd.Show();
+            this.Hide();
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            this.Height = 325;
         }
     }
 }
