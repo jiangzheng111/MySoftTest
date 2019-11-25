@@ -118,22 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="邮箱" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\FileIcon\邮箱.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="人物-增加" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\FileIcon\人物-增加.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="键盘" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\FileIcon\键盘.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="向上" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\向上.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="试卷" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\FileIcon\试卷.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="试卷封面背景1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\FileIcon\试卷封面背景1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="验证码蓝" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\FileIcon\验证码蓝.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="人物-增加" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\FileIcon\人物-增加.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="键盘" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\FileIcon\键盘.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="邮箱" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\FileIcon\邮箱.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="试卷封面背景" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\FileIcon\试卷封面背景.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="验证码黑" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\FileIcon\验证码黑.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="向上" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\向上.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MBE风格常用图标-本子" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\FileIcon\MBE风格常用图标-本子.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="档案袋" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\FileIcon\档案袋.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

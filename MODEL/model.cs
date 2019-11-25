@@ -17,6 +17,34 @@ namespace MODEL
         public string SuserPwd { get; set; }
         public string SuserOnLine { get; set; }
     }
+
+    /// <summary>
+    /// 题库 题库号，科目(软件设计师)，类型（年份上午/下午）
+    /// </summary>
+    public class Questionbank
+    {
+        public int qBId { get; set; }
+        public string qBType { get; set; }
+        public string qByearsType { get; set; }
+        public string qBdayType { get; set; }
+    }
+
+    /// <summary>
+    /// 试卷 题号id 题库id 问题 选项ABCD，答案，解析，评论id
+    /// </summary>
+    public class Question
+    {
+        public int qId { get; set; }
+        public int qBId { get; set; }
+        public string question { get; set; }
+        public string answerA { get; set; }
+        public string answerB { get; set; }
+        public string answerC { get; set; }
+        public string answerD { get; set; }
+        public string answer { get; set; }
+        public string parsing { get; set; }
+        public string comments { get; set; }
+    }
     /// <summary>
     /// string Msg
     /// </summary>

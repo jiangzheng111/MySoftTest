@@ -22,5 +22,16 @@ namespace UI.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=|DataDirectory|\\119.23.54.113.mdf;Integ" +
+            "rated Security=True;Connect Timeout=30;User Instance=True")]
+        public string _119_23_54_113ConnectionString {
+            get {
+                return ((string)(this["_119_23_54_113ConnectionString"]));
+            }
+        }
     }
 }

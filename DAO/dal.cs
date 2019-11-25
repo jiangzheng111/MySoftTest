@@ -180,4 +180,80 @@ namespace DAL
             return SUSER;
         }
     }
+
+    public class useQuestion
+    {
+        public static Questionbank QUESTIONBANK = new Questionbank();
+        public static Question QUESTION = new Question();
+        public static int[] qBId;//储存对应的题库号，作用--》然后给查询个个信息
+        /// <summary>
+        /// 根据题库id 查询年份上下午题
+        /// </summary>
+        private static string selectQuestionbank = "SELECT * FROM QUESTIONBANK WHERE qBId=@qBId";
+        //select Max(a) a from A"
+        private static string selectQuestion = "SELECT * FROM QUESTION WHERE qBId=@qBId AND qId=@qId";
+
+        /// <summary>
+        /// 查询选择的类型科目
+        /// </summary>
+        /// <param name="qBType"></param>
+        /// <returns></returns>
+        public static Questionbank readQuestionbank(int qbid)
+        {
+            using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
+            {
+                CON.Open();
+                using (SqlCommand CMD = new SqlCommand(selectQuestionbank, CON))
+                {
+                    CMD.Parameters.AddWithValue("@qBId", qbid);
+                    sqlLink.SQLDR = CMD.ExecuteReader();
+                    if (sqlLink.SQLDR.Read())
+                    {
+                        QUESTIONBANK.qBId = int.Parse(sqlLink.SQLDR["qBId"].ToString().Trim());
+                        QUESTIONBANK.qBType = sqlLink.SQLDR["qBType"].ToString().Trim();
+                        QUESTIONBANK.qByearsType = sqlLink.SQLDR["qByearsType"].ToString().Trim();
+                        QUESTIONBANK.qBdayType = sqlLink.SQLDR["qBdayType"].ToString().Trim();
+
+                    }
+                    sqlLink.SQLDR.Close();
+                    CMD.Dispose();
+                }
+                CON.Close();
+            }
+            return QUESTIONBANK;
+        }
+        //static int qid = 1;
+        public static Question readQuestion(int qbid, int qid)
+        {
+            using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
+            {
+                CON.Open();
+                using (SqlCommand CMD = new SqlCommand(selectQuestion, CON))
+                {
+                    //qid++;
+                    CMD.Parameters.AddWithValue("@qBId", qbid);
+                    CMD.Parameters.AddWithValue("@qId", qid);
+                    sqlLink.SQLDR = CMD.ExecuteReader();
+                    if (sqlLink.SQLDR.Read())
+                    {
+                        QUESTION.qId = int.Parse(sqlLink.SQLDR["qId"].ToString().Trim());
+                        QUESTION.qBId = int.Parse(sqlLink.SQLDR["qBId"].ToString().Trim());
+                        QUESTION.question = sqlLink.SQLDR["question"].ToString().Trim();
+                        QUESTION.answerA = sqlLink.SQLDR["answerA"].ToString().Trim();
+                        QUESTION.answerB = sqlLink.SQLDR["answerB"].ToString().Trim();
+                        QUESTION.answerC = sqlLink.SQLDR["answerC"].ToString().Trim();
+                        QUESTION.answerD = sqlLink.SQLDR["answerD"].ToString().Trim();
+                        QUESTION.parsing = sqlLink.SQLDR["parsing"].ToString().Trim();
+                        QUESTION.answer = sqlLink.SQLDR["answer"].ToString().Trim();
+                        QUESTION.comments = sqlLink.SQLDR["comments"].ToString().Trim();
+
+                       
+                        sqlLink.SQLDR.Close();
+                    }
+                }
+                CON.Close();
+            }
+            return QUESTION;
+        }
+    }
 }

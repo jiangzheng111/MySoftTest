@@ -25,7 +25,7 @@ namespace BLL
         {
             if (susername != null || suserpwd != null || suseremail != null)
             {
-                if (susername != "昵称" && suserpwd != "密码"&&suseremail!="邮箱")
+                if (susername != "昵称" && suserpwd != "密码" && suseremail != "邮箱")
                 {
                     return false;
                 }
@@ -123,7 +123,7 @@ namespace BLL
         /// <returns></returns>
         public static bool isEmailcode(string emailcode)
         {
-            if (emailcode !=string.Empty&& emailcode == myTool.sendEmail.thisrandomcode)
+            if (emailcode != string.Empty && emailcode == myTool.sendEmail.thisrandomcode)
             {
                 return true;
             }
@@ -154,6 +154,40 @@ namespace BLL
                 return TextString.emailCode;
             }
             return TextString.empty;
+        }
+        //隔开
+
+
+        //static Questionbank questionbank = new Questionbank();
+        /// <summary>
+        /// 读取科目，年份，上午题，下午题
+        /// </summary>
+        /// <param name="qbid">题库id</param>
+        /// <returns>返回拼接的年份和上下午提</returns>
+        public static string qbdaytype(int qbid)
+        {
+            var qBdayType = useQuestion.readQuestionbank(qbid).qBdayType.ToString();
+            var qByearsType = useQuestion.readQuestionbank(qbid).qByearsType.ToString();
+            return qByearsType + "\n\n" + qBdayType;
+        }
+
+        //根据错过来的题库id查询对应的试卷
+        public static string[] loadPaper(int qbid, int qId)
+        {
+            string[] USEQUESTION = new string[10];
+            USEQUESTION[0] = useQuestion.readQuestion(qbid, qId).qId.ToString();
+            USEQUESTION[1] = useQuestion.readQuestion(qbid, qId).qBId.ToString();
+            USEQUESTION[2] = useQuestion.readQuestion(qbid, qId).question.ToString();
+            USEQUESTION[3] = useQuestion.readQuestion(qbid, qId).answerA.ToString();
+            USEQUESTION[4] = useQuestion.readQuestion(qbid, qId).answerB.ToString();
+            USEQUESTION[5] = useQuestion.readQuestion(qbid, qId).answerC.ToString();
+            USEQUESTION[6] = useQuestion.readQuestion(qbid, qId).answerD.ToString();
+            USEQUESTION[7] = useQuestion.readQuestion(qbid, qId).answer.ToString();
+            USEQUESTION[8] = useQuestion.readQuestion(qbid, qId).parsing.ToString();
+            USEQUESTION[9] = useQuestion.readQuestion(qbid, qId).comments.ToString();
+
+                //根据传过来的题库号，题号，查询题目，答案，解析，一系列的数据，返回到ui层
+            return USEQUESTION;
         }
     }
 }

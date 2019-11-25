@@ -63,6 +63,16 @@ namespace UI.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap MBE风格常用图标_本子 {
+            get {
+                object obj = ResourceManager.GetObject("MBE风格常用图标-本子", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap 人物_增加 {
             get {
                 object obj = ResourceManager.GetObject("人物-增加", resourceCulture);
@@ -76,6 +86,46 @@ namespace UI.Properties {
         internal static System.Drawing.Bitmap 向上 {
             get {
                 object obj = ResourceManager.GetObject("向上", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 档案袋 {
+            get {
+                object obj = ResourceManager.GetObject("档案袋", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 试卷 {
+            get {
+                object obj = ResourceManager.GetObject("试卷", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 试卷封面背景 {
+            get {
+                object obj = ResourceManager.GetObject("试卷封面背景", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 试卷封面背景1 {
+            get {
+                object obj = ResourceManager.GetObject("试卷封面背景1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
