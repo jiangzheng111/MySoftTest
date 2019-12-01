@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 using MODEL;
+using System.Data;
 
 //增改，还没有写完
 
@@ -74,14 +75,15 @@ namespace DAL
                 {
                     CMD.Parameters.AddWithValue("@suseremail", suseremail);
                     CMD.Parameters.AddWithValue("@suserpwd", suserpwd);
-                    //CMD.Parameters.AddWithValue("@susercode",susercode);
                     SQLDR = CMD.ExecuteReader();
                     if (SQLDR.Read())
                     {
                         SUSER.SuserEmail = SQLDR["SuserEmail"].ToString().Trim();
                         SUSER.SuserPwd = SQLDR["SuserPwd"].ToString().Trim();
                         SUSER.SuserOnLine = SQLDR["SuserOnLine"].ToString().Trim();
+                        SQLDR.Close();
                     }
+                    CMD.Dispose();
                     CON.Close();
                 }
             }
@@ -125,6 +127,7 @@ namespace DAL
                     CMD.Parameters.AddWithValue("@suserpwd", suserpwd);
                     CMD.Parameters.AddWithValue("@suseremail", suseremail);
                     var a = CMD.ExecuteNonQuery();//执行语句
+                    CMD.Dispose();
                 }
                 CON.Close();
             }
@@ -148,7 +151,7 @@ namespace DAL
                     if (SQLDR.Read())
                     {
                         SUSER.SuserEmail = SQLDR["SuserEmail"].ToString().Trim();
-                        //SQLDR.Close();
+                        SQLDR.Close();
                     }
                     CMD.Dispose();
                 }
@@ -181,23 +184,49 @@ namespace DAL
         }
     }
 
+    /// <summary>
+    /// 使用题目的操作对象
+    /// </summary>
     public class useQuestion
     {
         public static Questionbank QUESTIONBANK = new Questionbank();
         public static Question QUESTION = new Question();
+        public static answerQuestions ANSWERQUESTIONS = new answerQuestions();
         public static int[] qBId;//储存对应的题库号，作用--》然后给查询个个信息
         /// <summary>
         /// 根据题库id 查询年份上下午题
         /// </summary>
         private static string selectQuestionbank = "SELECT * FROM QUESTIONBANK WHERE qBId=@qBId";
         //select Max(a) a from A"
+
+        /// <summary>
+        /// 根据题库id和题号id查询对应的题目
+        /// </summary>
         private static string selectQuestion = "SELECT * FROM QUESTION WHERE qBId=@qBId AND qId=@qId";
 
         /// <summary>
-        /// 查询选择的类型科目
+        /// 插入用户答题的记录 题号id 题库id 邮箱 自己选择的答案
         /// </summary>
-        /// <param name="qBType"></param>
-        /// <returns></returns>
+        private static string insertAnswerQuestions = "INSERT INTO  AnswerQuestions(qId ,qBId ,SuserEmail,myanswer,Wrong,collection) VALUES (@qId,@qBId,@SuserEmail,@myanswer,@Wrong,@collection)";
+
+        //"INSERT INTO SUSER(suseremail,suserpwd,susername) VALUES (@suseremail,@suserpwd,@susername)";
+
+        /// <summary>
+        /// 查询用户的答题记录
+        /// </summary>
+        private static string selectAnswerQuestions = "SELECT * FROM ANSWERQUESTIONS WHERE SuserEmail=@SuserEmail AND qBId=@qBId AND qId=@qId";
+
+        /// <summary>
+        /// 修改用户的收藏
+        /// </summary>
+        private static string updateCollection = "UPDATE ANSWERQUESTIONS SET myanswer=@myanswer,Wrong =@Wrong,collection=@collection where SuserEmail=@SuserEmail AND qBId=@qBId AND qId=@qId";
+
+
+        /// <summary>
+        /// 读取题库中的数据
+        /// </summary>
+        /// <param name="qbid">题库号</param>
+        /// <returns>Questionbank</returns>
         public static Questionbank readQuestionbank(int qbid)
         {
             using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
@@ -222,7 +251,13 @@ namespace DAL
             }
             return QUESTIONBANK;
         }
-        //static int qid = 1;
+
+        /// <summary>
+        /// 读取题目的数据
+        /// </summary>
+        /// <param name="qbid">题库id</param>
+        /// <param name="qid">题号id</param>
+        /// <returns>Question</returns>
         public static Question readQuestion(int qbid, int qid)
         {
             using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
@@ -246,14 +281,123 @@ namespace DAL
                         QUESTION.parsing = sqlLink.SQLDR["parsing"].ToString().Trim();
                         QUESTION.answer = sqlLink.SQLDR["answer"].ToString().Trim();
                         QUESTION.comments = sqlLink.SQLDR["comments"].ToString().Trim();
-
-                       
                         sqlLink.SQLDR.Close();
                     }
                 }
                 CON.Close();
             }
             return QUESTION;
+        }
+
+        //写入题号id，题库id，邮箱，错题
+        public static answerQuestions readSetANSWERQUESTIONS(int qId, int qBId, string SuserEmail, string myanswer, bool Wrong, bool collection, bool isRead, bool isExit)
+        {
+            //要先判断这条记录是否存在，不存在就插入，存在就修改
+            //set 题号id，题库id，邮箱
+            //先查询题号id，题库id，邮箱，是否存在 返回bool，存在就修改数据，不存在就插入
+            using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
+            {
+                CON.Open();
+                if (isRead)//是否查询有记录
+                {
+                    using (SqlCommand CMD = new SqlCommand(selectAnswerQuestions, CON))
+                    {
+                        CMD.Parameters.AddWithValue("@qId", qId);
+                        CMD.Parameters.AddWithValue("@qBId", qBId);
+                        CMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+                        CMD.Parameters.AddWithValue("@myanswer", myanswer);
+                        CMD.Parameters.AddWithValue("@Wrong", Wrong);
+                        CMD.Parameters.AddWithValue("@collection", collection);
+                        sqlLink.SQLDR = CMD.ExecuteReader();
+                        if (sqlLink.SQLDR.Read())
+                        {
+                            ANSWERQUESTIONS.isExit = true;
+                            sqlLink.SQLDR.Close();
+                            CMD.Dispose();
+                            using (SqlCommand thisCMD = new SqlCommand(updateCollection, CON))
+                            {
+                                thisCMD.Parameters.AddWithValue("@qId", qId);
+                                thisCMD.Parameters.AddWithValue("@qBId", qBId);
+                                thisCMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+                                thisCMD.Parameters.AddWithValue("@myanswer", myanswer);
+                                thisCMD.Parameters.AddWithValue("@Wrong", Wrong);
+                                thisCMD.Parameters.AddWithValue("@collection", collection);
+                                if (thisCMD.ExecuteNonQuery() > 0)
+                                {
+                                    ANSWERQUESTIONS.qId = qId;
+                                    ANSWERQUESTIONS.qBId = qBId;
+                                    ANSWERQUESTIONS.SuserEmail = SuserEmail;
+                                    ANSWERQUESTIONS.myanswer = myanswer;
+                                    ANSWERQUESTIONS.Wrong = Wrong;
+                                    ANSWERQUESTIONS.collection = collection;
+                                    thisCMD.Dispose();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            sqlLink.SQLDR.Close();
+                            CMD.Dispose();
+                            using (SqlCommand thisCMD = new SqlCommand(insertAnswerQuestions, CON))//插入用户作答的记录
+                            {
+                                thisCMD.Parameters.AddWithValue("@qId", qId);
+                                thisCMD.Parameters.AddWithValue("@qBId", qBId);
+                                thisCMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+                                thisCMD.Parameters.AddWithValue("@myanswer", myanswer);
+                                thisCMD.Parameters.AddWithValue("@Wrong", Wrong);
+                                thisCMD.Parameters.AddWithValue("@collection", collection);
+                                //var n = CMD.ExecuteNonQuery();
+                                if (thisCMD.ExecuteNonQuery() > 0)
+                                {
+                                    ANSWERQUESTIONS.qId = qId;
+                                    ANSWERQUESTIONS.qBId = qBId;
+                                    ANSWERQUESTIONS.SuserEmail = SuserEmail;
+                                    ANSWERQUESTIONS.myanswer = myanswer;
+                                    ANSWERQUESTIONS.Wrong = Wrong;
+                                    ANSWERQUESTIONS.collection = collection;
+                                }
+                                thisCMD.Dispose();
+                            }
+                            CON.Close();
+                        }
+                    }
+                }
+            }
+            return ANSWERQUESTIONS;
+        }
+    }
+
+    public class DataSource_DataGridView
+    {
+        public static DataSet ds = new DataSet();
+        public static DataSet getDataSet()
+        {
+            //String strConn = "Data Source=.;Initial Catalog=His;User ID=sa;Password=*****";
+            //SqlConnection conn = new SqlConnection(strConn);
+            //String sql = "select * from EMPLOYEE ";
+            //conn.Open();
+            //SqlCommand cmd = new SqlCommand(sqlId, conn);
+            //SqlDataAdapter da = new SqlDataAdapter(cmd);
+            //DataSet ds = new DataSet();
+            //da.Fill(ds, "EMPLOYEE");
+            //dataGridView1.DataSource = ds;
+            //this.dataGridView1.AutoGenerateColumns = false;//是否自动生成列
+            //dataGridView1.DataMember = "EMPLOYEE";
+            //conn.Close(); 
+
+            using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
+            {
+                CON.Open();
+                using (SqlCommand CMD = new SqlCommand("select * from Question", CON))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(CMD);
+                    da.Fill(ds, "Question");
+                    //da.Dispose();
+                    CMD.Dispose();
+                }
+                CON.Close();
+            }
+            return ds;
         }
     }
 }

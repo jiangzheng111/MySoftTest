@@ -93,6 +93,16 @@ namespace UI.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap 对 {
+            get {
+                object obj = ResourceManager.GetObject("对", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap 档案袋 {
             get {
                 object obj = ResourceManager.GetObject("档案袋", resourceCulture);
@@ -136,6 +146,16 @@ namespace UI.Properties {
         internal static System.Drawing.Bitmap 邮箱 {
             get {
                 object obj = ResourceManager.GetObject("邮箱", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 错 {
+            get {
+                object obj = ResourceManager.GetObject("错", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

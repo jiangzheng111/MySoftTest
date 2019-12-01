@@ -6,6 +6,7 @@ using MODEL;
 using DAL;
 using System.Text.RegularExpressions;
 using myTool;
+using System.Data;
 //业务层
 namespace BLL
 {
@@ -171,23 +172,68 @@ namespace BLL
             return qByearsType + "\n\n" + qBdayType;
         }
 
-        //根据错过来的题库id查询对应的试卷
+        static Question USEQUESTION = new Question();
+
+        /// <summary>
+        /// 初始化试卷 根据错过来的题库id查询对应的试卷
+        /// </summary>
+        /// <param name="qbid">题库id</param>
+        /// <param name="qId">题号id</param>
+        /// <returns>string[10]</returns>
         public static string[] loadPaper(int qbid, int qId)
         {
-            string[] USEQUESTION = new string[10];
-            USEQUESTION[0] = useQuestion.readQuestion(qbid, qId).qId.ToString();
-            USEQUESTION[1] = useQuestion.readQuestion(qbid, qId).qBId.ToString();
-            USEQUESTION[2] = useQuestion.readQuestion(qbid, qId).question.ToString();
-            USEQUESTION[3] = useQuestion.readQuestion(qbid, qId).answerA.ToString();
-            USEQUESTION[4] = useQuestion.readQuestion(qbid, qId).answerB.ToString();
-            USEQUESTION[5] = useQuestion.readQuestion(qbid, qId).answerC.ToString();
-            USEQUESTION[6] = useQuestion.readQuestion(qbid, qId).answerD.ToString();
-            USEQUESTION[7] = useQuestion.readQuestion(qbid, qId).answer.ToString();
-            USEQUESTION[8] = useQuestion.readQuestion(qbid, qId).parsing.ToString();
-            USEQUESTION[9] = useQuestion.readQuestion(qbid, qId).comments.ToString();
+            string[] questionArray = new string[10];
+            USEQUESTION = useQuestion.readQuestion(qbid, qId);
+            questionArray[0] = USEQUESTION.qId.ToString();
+            questionArray[1] = USEQUESTION.qBId.ToString();
+            questionArray[2] = USEQUESTION.question.ToString();
+            questionArray[3] = USEQUESTION.answerA.ToString();
+            questionArray[4] = USEQUESTION.answerB.ToString();
+            questionArray[5] = USEQUESTION.answerC.ToString();
+            questionArray[6] = USEQUESTION.answerD.ToString();
+            questionArray[7] = USEQUESTION.answer.ToString();
+            questionArray[8] = USEQUESTION.parsing.ToString();
+            questionArray[9] = USEQUESTION.comments.ToString();
+            //根据传过来的题库号，题号，查询题目，答案，解析，一系列的数据，返回到ui层
+            return questionArray;
+        }
 
-                //根据传过来的题库号，题号，查询题目，答案，解析，一系列的数据，返回到ui层
-            return USEQUESTION;
+
+        static answerQuestions ANSWERQUESTIONS = new answerQuestions();//实例化作答表
+
+        /// <summary>
+        /// 初始化作答 插入作答记录
+        /// </summary>
+        /// <param name="qId">题号id</param>
+        /// <param name="qBId">题库id</param>
+        /// <param name="SuserEmail">邮箱</param>
+        /// <param name="myanswer">作答答案</param>
+        /// <param name="Wrong">是否错题</param>
+        /// <param name="collection">是否收藏</param>
+        /// <returns>string answerArray</returns>
+        public static string[] loadAnswer(int qId, int qBId, string SuserEmail, string myanswer, bool Wrong, bool collection, bool isRead, bool isExit)
+        {
+            string[] answerArray = new string[6];
+            ANSWERQUESTIONS = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection, isRead, isExit);
+            answerArray[0] = ANSWERQUESTIONS.qId.ToString();
+            answerArray[1] = ANSWERQUESTIONS.qBId.ToString();
+            answerArray[2] = ANSWERQUESTIONS.SuserEmail.ToString();
+            answerArray[3] = ANSWERQUESTIONS.myanswer.ToString();
+            answerArray[4] = ANSWERQUESTIONS.Wrong.ToString();
+            answerArray[5] = ANSWERQUESTIONS.collection.ToString();
+
+            //answerArray[1] = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection).qBId.ToString();
+            //answerArray[2] = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection).SuserEmail.ToString();
+            //answerArray[3] = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection).myanswer.ToString();
+            //answerArray[4] = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection).Wrong.ToString();
+            //answerArray[5] = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection).collection.ToString();
+            return answerArray;
+        }
+        private static DataSet ds;
+        public static DataSet getDataset()
+        {
+            ds = DataSource_DataGridView.getDataSet();
+            return ds;
         }
     }
 }

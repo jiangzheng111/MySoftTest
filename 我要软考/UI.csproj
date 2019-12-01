@@ -159,6 +159,10 @@
       <Project>{2516FA32-F19C-4160-B7FE-2DEB14701D71}</Project>
       <Name>BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DAO\DAL.csproj">
+      <Project>{BB1BFA3B-A008-4179-86F1-7D4F05A390FE}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MODEL\MODEL.csproj">
       <Project>{0A9A6D93-2460-4E87-95D3-70BFDCEFF95C}</Project>
       <Name>MODEL</Name>

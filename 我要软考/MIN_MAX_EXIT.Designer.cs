@@ -84,7 +84,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Button btnMax;
         private System.Windows.Forms.Button btnMin;
+        public System.Windows.Forms.Button btnMax;
     }
 }

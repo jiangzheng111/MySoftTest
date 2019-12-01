@@ -23,15 +23,15 @@ namespace UI
 
         public void btnMax_Click(object sender, EventArgs e)
         {
-            //if (Form.ActiveForm.WindowState == FormWindowState.Maximized)
-            //{
-            //     Form.ActiveForm.WindowState = FormWindowState.Normal;
-            //}
-            //else
-            //{
-            //     Form.ActiveForm.WindowState = FormWindowState.Maximized;
-            //}
-            btnMax.Enabled = false;
+            if (Form.ActiveForm.WindowState == FormWindowState.Maximized)
+            {
+                Form.ActiveForm.WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                Form.ActiveForm.WindowState = FormWindowState.Maximized;
+            }
+            //btnMax.Enabled = false;
         }
 
         public void btnClose_Click(object sender, EventArgs e)

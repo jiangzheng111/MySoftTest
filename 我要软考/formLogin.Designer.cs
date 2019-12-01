@@ -176,6 +176,7 @@
             this.miN_MAX_EXIT1.Size = new System.Drawing.Size(108, 30);
             this.miN_MAX_EXIT1.TabIndex = 10;
             this.miN_MAX_EXIT1.WindowState = System.Windows.Forms.FormWindowState.Normal;
+            this.miN_MAX_EXIT1.Load += new System.EventHandler(this.miN_MAX_EXIT1_Load);
             // 
             // pictureBox1
             // 

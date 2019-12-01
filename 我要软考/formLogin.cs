@@ -240,6 +240,11 @@ namespace 我要软考
         {
             this.Height = 325;
         }
+
+        private void miN_MAX_EXIT1_Load(object sender, EventArgs e)
+        {
+            miN_MAX_EXIT1.btnMax.Enabled = false;
+        }
     }
 }
 

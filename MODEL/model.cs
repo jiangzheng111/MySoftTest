@@ -45,6 +45,27 @@ namespace MODEL
         public string parsing { get; set; }
         public string comments { get; set; }
     }
+
+    /// <summary>
+    /// 用户作答表 题号id，题库id，邮箱，答案，是否错题，是否收藏
+    /// </summary>
+    public class answerQuestions
+    {
+        public int qId { get; set; }
+        public int qBId { get; set; }
+        public string SuserEmail { get; set; }
+        public string myanswer { get; set; }
+        public bool Wrong { get; set; }
+        public bool collection { get; set; }
+        public bool isExit { get; set; }//这是程序需要，数据库这个表中并没有这个列
+
+
+
+
+
+
+
+    }
     /// <summary>
     /// string Msg
     /// </summary>
