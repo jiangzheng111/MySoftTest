@@ -5,3 +5,10 @@ C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myToo
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myTool\bin\Debug\MODEL.dll
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myTool\bin\Debug\MODEL.pdb
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\myTool\obj\Debug\myTool.csprojResolveAssemblyReference.cache
+D:\仓库\MySoftTest\myTool\bin\Debug\myTool.dll
+D:\仓库\MySoftTest\myTool\bin\Debug\myTool.pdb
+D:\仓库\MySoftTest\myTool\bin\Debug\MODEL.dll
+D:\仓库\MySoftTest\myTool\bin\Debug\MODEL.pdb
+D:\仓库\MySoftTest\myTool\obj\Debug\myTool.csprojResolveAssemblyReference.cache
+D:\仓库\MySoftTest\myTool\obj\Debug\myTool.dll
+D:\仓库\MySoftTest\myTool\obj\Debug\myTool.pdb

@@ -9,3 +9,14 @@ C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\BLL\b
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\BLL\bin\Debug\MODEL.pdb
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\BLL\bin\Debug\myTool.dll
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\BLL\bin\Debug\myTool.pdb
+D:\仓库\MySoftTest\BLL\bin\Debug\BLL.dll
+D:\仓库\MySoftTest\BLL\bin\Debug\BLL.pdb
+D:\仓库\MySoftTest\BLL\bin\Debug\DAL.dll
+D:\仓库\MySoftTest\BLL\bin\Debug\MODEL.dll
+D:\仓库\MySoftTest\BLL\bin\Debug\myTool.dll
+D:\仓库\MySoftTest\BLL\bin\Debug\DAL.pdb
+D:\仓库\MySoftTest\BLL\bin\Debug\MODEL.pdb
+D:\仓库\MySoftTest\BLL\bin\Debug\myTool.pdb
+D:\仓库\MySoftTest\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\仓库\MySoftTest\BLL\obj\Debug\BLL.dll
+D:\仓库\MySoftTest\BLL\obj\Debug\BLL.pdb

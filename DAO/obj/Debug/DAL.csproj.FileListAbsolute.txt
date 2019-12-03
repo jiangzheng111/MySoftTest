@@ -5,3 +5,10 @@ C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\DAO\o
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\DAO\bin\Debug\MODEL.dll
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\DAO\bin\Debug\MODEL.pdb
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\DAO\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+D:\仓库\MySoftTest\DAO\bin\Debug\DAL.dll
+D:\仓库\MySoftTest\DAO\bin\Debug\DAL.pdb
+D:\仓库\MySoftTest\DAO\bin\Debug\MODEL.dll
+D:\仓库\MySoftTest\DAO\bin\Debug\MODEL.pdb
+D:\仓库\MySoftTest\DAO\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+D:\仓库\MySoftTest\DAO\obj\Debug\DAL.dll
+D:\仓库\MySoftTest\DAO\obj\Debug\DAL.pdb

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Data.SqlClient;
 using DAL;
+using UI;
 
 namespace 我要软考
 {
@@ -51,9 +52,6 @@ namespace 我要软考
                 }
                 CON.Close();
             }
-            dataGridView1.DataSource = ds;
-            dataGridView1.DataMember = "Question";
-
         }
 
         //控制Pane的可视
@@ -383,17 +381,25 @@ namespace 我要软考
 
         private void tabControl1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (Form.ActiveForm.WindowState != FormWindowState.Maximized)
-            {
-                Form.ActiveForm.WindowState = FormWindowState.Normal;
-                dataGridView1.Width = this.Width;
-            }
-            else
-            {
-                Form.ActiveForm.WindowState = FormWindowState.Maximized;
-                dataGridView1.Width = this.Width;
-                //751, 742
-            }
+            this.Hide();
+            Form admin = new admin();
+            admin.Show();
+            //if (Form.ActiveForm.WindowState != FormWindowState.Maximized)
+            //{
+            //    Form.ActiveForm.WindowState = FormWindowState.Normal;
+            //    dataGridView1.Width = this.Width;
+            //}
+            //else
+            //{
+            //    Form.ActiveForm.WindowState = FormWindowState.Maximized;
+            //    dataGridView1.Width = this.Width;
+            //    //751, 742
+            //}
+        }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

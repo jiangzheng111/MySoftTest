@@ -21,3 +21,27 @@ C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我�
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\obj\x86\Debug\UI.formRePwd.resources
 C:\Users\hyy\Documents\visual studio 2010\Projects\我要软考\MySoftTest\我要软考\obj\x86\Debug\MyTextBox.MyTextBox.resources
 C:\Users\hyy\Documents\Visual Studio 2010\Projects\我要软考\MySoftTest\我要软考\bin\Debug\UI.exe.config
+D:\仓库\MySoftTest\我要软考\bin\Debug\UI.exe.config
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\UI.exe
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\UI.pdb
+D:\仓库\MySoftTest\我要软考\bin\Debug\UI.exe
+D:\仓库\MySoftTest\我要软考\bin\Debug\UI.pdb
+D:\仓库\MySoftTest\我要软考\bin\Debug\BLL.dll
+D:\仓库\MySoftTest\我要软考\bin\Debug\DAL.dll
+D:\仓库\MySoftTest\我要软考\bin\Debug\MODEL.dll
+D:\仓库\MySoftTest\我要软考\bin\Debug\myTool.dll
+D:\仓库\MySoftTest\我要软考\bin\Debug\BLL.pdb
+D:\仓库\MySoftTest\我要软考\bin\Debug\DAL.pdb
+D:\仓库\MySoftTest\我要软考\bin\Debug\MODEL.pdb
+D:\仓库\MySoftTest\我要软考\bin\Debug\myTool.pdb
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\UI.csprojResolveAssemblyReference.cache
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\UI.Form1.resources
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\我要软考.formLogin.resources
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\UI.formReg.resources
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\UI.formRePwd.resources
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\UI.MIN_MAX_EXIT.resources
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\我要软考.MyTest.resources
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\MyTextBox.MyTextBox.resources
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\UI.Properties.Resources.resources
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\UI.csproj.GenerateResource.Cache
+D:\仓库\MySoftTest\我要软考\obj\x86\Debug\UI.admin.resources

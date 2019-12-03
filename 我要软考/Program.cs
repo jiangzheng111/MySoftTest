@@ -16,7 +16,7 @@ namespace 我要软考
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new formLogin());
+            Application.Run(new MyTest());
         }
     }
 }
