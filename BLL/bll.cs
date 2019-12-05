@@ -47,15 +47,15 @@ namespace BLL
             {
                 if (SUSER.SuserPwd == suserpwd)
                 {
-                    if (SUSER.SuserOnLine == "false")
+                    if (SUSER.SuserAdmin == "true")
                     {
                         //DAL.sqlLink.
                         //sqlLink.isOnLine();暂时不使用这个功能，不能删除
-                        return TextString.successful;
+                        return SUSER.SuserAdmin;
                     }
                     else
                     {
-                        return TextString.onLine;
+                        return TextString.successful;
                     }
                 }
                 return TextString.failure;
@@ -211,22 +211,17 @@ namespace BLL
         /// <param name="Wrong">是否错题</param>
         /// <param name="collection">是否收藏</param>
         /// <returns>string answerArray</returns>
-        public static string[] loadAnswer(int qId, int qBId, string SuserEmail, string myanswer, bool Wrong, bool collection, bool isRead, bool isExit)
+        public static string[] loadAnswer(int qId, int qBId, string SuserEmail, string myanswer)
         {
             string[] answerArray = new string[6];
-            ANSWERQUESTIONS = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection, isRead, isExit);
+            ANSWERQUESTIONS = useQuestion.setAnswerQuestions(qId, qBId, SuserEmail, myanswer);
             answerArray[0] = ANSWERQUESTIONS.qId.ToString();
             answerArray[1] = ANSWERQUESTIONS.qBId.ToString();
-            answerArray[2] = ANSWERQUESTIONS.SuserEmail.ToString();
-            answerArray[3] = ANSWERQUESTIONS.myanswer.ToString();
+            //answerArray[2] = ANSWERQUESTIONS.SuserEmail.ToString();
+            //answerArray[3] = ANSWERQUESTIONS.myanswer.ToString();
             answerArray[4] = ANSWERQUESTIONS.Wrong.ToString();
-            answerArray[5] = ANSWERQUESTIONS.collection.ToString();
+            //answerArray[5] = ANSWERQUESTIONS.collection.ToString();
 
-            //answerArray[1] = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection).qBId.ToString();
-            //answerArray[2] = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection).SuserEmail.ToString();
-            //answerArray[3] = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection).myanswer.ToString();
-            //answerArray[4] = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection).Wrong.ToString();
-            //answerArray[5] = useQuestion.readSetANSWERQUESTIONS(qId, qBId, SuserEmail, myanswer, Wrong, collection).collection.ToString();
             return answerArray;
         }
         private static DataSet ds;

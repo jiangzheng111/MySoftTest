@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Data.SqlClient;
 using DAL;
+//using System.Data.sqlite;
 using UI;
 
 namespace 我要软考
@@ -20,20 +21,18 @@ namespace 我要软考
             InitializeComponent();
         }
         string[] questionArray;//储存一道的所有数据
-        string[] numArray;
+        //string[] numArray;
         int[] ruanjianshejishi_qBId = { 1, 2, 3, 4 };//标识有多少份题
         int[] chenxuyuan_qBId = { 5, 6 };//标识有多少份题
         string[] answerArray;//记录作答的记录
         string SuserEmail = "1316836373@qq.com";
         int qBId = 1;       //标识题库号
         int qId = 1;        //标识题号
-        bool isPush = true; //标识是否点击提交
-        bool Wrong;         //标识 是否是错题
+        bool isPush = false; //标识是否点击提交
         bool collection;    //标识 是否是收藏
-        bool isRead;        //标识 是否是读取
-        bool isExit;        //标识 是否是存在
-        ArrayList stateList = new ArrayList();//初始化
-
+        ArrayList stateList = new ArrayList();//标识该题是否提交过
+        public static string suseremail;
+        public static string suseradmin;
         private void My_Load(object sender, EventArgs e)
         {
             isPanelFalse(false);
@@ -62,8 +61,6 @@ namespace 我要软考
             panel3.Visible = istrue;
             panel4.Visible = istrue;
         }
-
-
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -141,6 +138,7 @@ namespace 我要软考
 
         private void btnPush_Click(object sender, EventArgs e)
         {
+            isPush = !isPush;//点击了提交
             if (isPush)
             {
                 if (rdoAnswerA.Checked == false && rdoAnswerB.Checked == false && rdoAnswerC.Checked == false && rdoAnswerD.Checked == false)
@@ -149,59 +147,66 @@ namespace 我要软考
                     return;
                 }
                 //判断是否答对  对
+
+                //给当前的题赋值状态
+                try
+                {
+                    if (stateList[qId - 1].ToString() == string.Empty)//如果当前的题号对应的状态值为空就给他赋值
+                    {
+                    }
+                    if (stateList[qId-1].ToString()==false.ToString())
+                    {
+                        stateList[qId - 1] = true.ToString();
+                    }
+                }
+                catch (Exception)
+                {
+                    stateList.Add(true.ToString()); //赋值 有点击
+                }
+
                 if (lblmyAnswer.Text == questionArray[7].ToString())
                 {
-                    stateList.Add(false.ToString());
                     if (stateList[qId - 1].ToString() == true.ToString())
                     {
                         btnPush.Enabled = false;
-                    }
-                    else
-                    {
-                        btnPush.Enabled = false;
+                        //btnPush.Enabled = false;
                         qId = int.Parse(questionArray[0].ToString());
                         lblanswer.Text = questionArray[7].ToString();
+                        answerArray = BLL.bll.loadAnswer(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail, lblmyAnswer.Text);
                         picRight.Visible = true;
                         picwrong.Visible = false;
                         //numArray[qId] = true.ToString();
-                        stateList[qId - 1] = true.ToString();
+                        //stateList[qId - 1] = true.ToString();
                     }
                 }
                 //判断是否答对  错
                 else
                 {
-                    stateList.Add(false.ToString());
-                    if (stateList[qId - 1].ToString() == true.ToString())
+                    //stateList.Add(true.ToString());//被点击了
+                    if (stateList[qId - 1].ToString() == true.ToString())//被点击了
                     {
                         btnPush.Enabled = false;
-                    }
-                    else
-                    {
-                        Wrong = true;
-                        collection = false;
-                        isRead = true;
-                        isExit = false; lblanswer.Text = questionArray[7].ToString();
                         //这要写入数据库，记录邮箱，题号，题库号，我的答案，是否错题，是否收藏。
                         //写入题号id，题库id，邮箱，错题
-                        answerArray = BLL.bll.loadAnswer(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail, lblmyAnswer.Text, Wrong, collection, isRead, isExit);
+                        answerArray = BLL.bll.loadAnswer(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail, lblmyAnswer.Text);
                         picRight.Visible = false;
                         picwrong.Visible = true;
                         //numArray[qId] = true.ToString();
-                        stateList[qId - 1] = true.ToString();
+                        //stateList[qId - 1] = true.ToString();
                     }
                 }
-                isPush = false;
-                btnPush.Enabled = isPush;
+                //isPush = false;
+                //btnPush.Enabled = !isPush;//isPush=true 相等于按钮不可用 取反表示按钮不可用
             }
         }
-
+        //接下来重构算法
         private void btnUp_Click(object sender, EventArgs e)
         {
             if (isPush == true)//如果按钮没有被点击
             {
                 if (stateList[qId - 2].ToString() != string.Empty)
                 {
-                    MessageBox.Show("Test");
+                    //MessageBox.Show("Test");
                 }
                 //stateList.Add(false.ToString());//初始化按钮是否被点击
                 else
@@ -212,6 +217,10 @@ namespace 我要软考
             if (stateList[qId - 2].ToString() == true.ToString())
             {
                 btnPush.Enabled = false;
+            }
+            if (stateList[qId-2].ToString()==false.ToString())
+            {
+                btnPush.Enabled = true;
             }
             if (qId <= 1)
             {
@@ -225,8 +234,8 @@ namespace 我要软考
                 qId--;
                 questionArray = BLL.bll.loadPaper(qBId, qId);
                 fill(questionArray, true);
-                isPush = true;
-                //btnPush.Enabled = isPush;
+                //isPush = true;
+                //btnPush.Enabled = !Convert.ToBoolean(stateList[qId - 2].ToString());
                 lblanswer.Text = string.Empty;
                 lblmyAnswer.Text = string.Empty;
                 picRight.Visible = false;
@@ -254,15 +263,32 @@ namespace 我要软考
             //}
             //if (stateList[qId - 1].ToString() == true.ToString())
             //{
-            btnPush.Enabled = false;
+            ////btnPush.Enabled = false;
             //}
+
+            try
+            {
+                if (stateList[qId].ToString() == string.Empty)//如果当前的题号对应的状态值为空就给他赋值
+                {
+                }
+                //else
+                //{
+                //    stateList[qId] = isPush.ToString(); //如果不为空，则给他赋值  点击了
+                //}
+            }
+            catch (Exception)
+            {
+                stateList.Add(false.ToString()); //赋值 没有点击
+            }
+            //要先判断按钮有没有被点击 再依据按钮的状态去写入当前题的状态
+            //stateList.Add(false.ToString());
             if (qId >= 1)
             {
                 qId++;
                 questionArray = BLL.bll.loadPaper(qBId, qId);
                 fill(questionArray, true);
-                isPush = true;
-                btnPush.Enabled = isPush;
+                //isPush = true;      //要先判断数组这题的状态是不是等于空，是就给他复制
+                //btnPush.Enabled = isPush;  //这个取值要给数组赋值  用对应的题号，对应的状态而取值    解析要根据是否依据提交答案而作出显示
                 lblanswer.Text = string.Empty;
                 lblmyAnswer.Text = string.Empty;
                 picRight.Visible = false;
@@ -271,6 +297,14 @@ namespace 我要软考
                 rdoAnswerB.Checked = false;
                 rdoAnswerC.Checked = false;
                 rdoAnswerD.Checked = false;
+            }
+            try
+            {
+                btnPush.Enabled = !Convert.ToBoolean(stateList[qId - 1].ToString());
+            }
+            catch (Exception)
+            {
+                btnPush.Enabled = true;
             }
         }
 
@@ -314,7 +348,7 @@ namespace 我要软考
         /// </summary>
         private void myAnswertxt()
         {
-
+            isPush = !isPush;
             if (isPush)
             {
                 if (rdoAnswerA.Checked == true)
@@ -357,49 +391,23 @@ namespace 我要软考
         }
         #endregion
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            //String strConn = "Data Source=.;Initial Catalog=His;User ID=sa;Password=*****";
-            //SqlConnection conn = new SqlConnection(strConn);
-            //String sql = "select * from EMPLOYEE ";
-            //conn.Open();
-            //SqlCommand cmd = new SqlCommand(sqlId, conn);
-            //SqlDataAdapter da = new SqlDataAdapter(cmd);
-            //DataSet ds = new DataSet();
-            //da.Fill(ds, "EMPLOYEE");
-            //dataGridView1.DataSource = ds;
-            //this.dataGridView1.AutoGenerateColumns = false;//是否自动生成列
-            //dataGridView1.DataMember = "EMPLOYEE";
-            //conn.Close(); 
-
-        }
-
         private void miN_MAX_EXIT1_Load(object sender, EventArgs e)
         {
             miN_MAX_EXIT1.btnMax.Enabled = true;
         }
 
-        private void tabControl1_MouseClick(object sender, MouseEventArgs e)
+        private void tabPage5_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Form admin = new admin();
-            admin.Show();
-            //if (Form.ActiveForm.WindowState != FormWindowState.Maximized)
-            //{
-            //    Form.ActiveForm.WindowState = FormWindowState.Normal;
-            //    dataGridView1.Width = this.Width;
-            //}
-            //else
-            //{
-            //    Form.ActiveForm.WindowState = FormWindowState.Maximized;
-            //    dataGridView1.Width = this.Width;
-            //    //751, 742
-            //}
-        }
-
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
+            if (suseradmin == "true")
+            {
+                this.Hide();
+                Form admin = new admin();
+                admin.Show();
+            }
+            else
+            {
+                MessageBox.Show("请升级为管理员！");
+            }
         }
     }
 }

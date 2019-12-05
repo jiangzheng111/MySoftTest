@@ -63,6 +63,7 @@ namespace 我要软考
         //验证账号
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            //登录失败
             if (bll.isEmpty(txtEmail.Text, txtPwd.Text, "false"))
             {
                 this.Height = 347;
@@ -74,16 +75,28 @@ namespace 我要软考
                 return;
             }
             suserEmail = txtEmail.Text.ToString().Trim();
+            MyTest.suseremail = suserEmail;//传递用户的邮箱
             suserPwd = txtPwd.Text.ToString().Trim();
             //bll LoginBll = new bll();
             BllReturn = bll.selectUser(suserEmail, suserPwd);
+            MyTest.suseradmin = true.ToString();
             textBox1.Text = BllReturn;
+            //登录成功
             if (BllReturn == TextString.successful)
             {
                 btn_Click = 1;
                 Login_lbl();
                 MyTest mytest = new MyTest();
+                mytest.Show(); 
+                MyTest.suseradmin = false.ToString();
+                return;
+            } if (BllReturn.ToString() == "true")
+            {
+                btn_Click = 1;
+                Login_lbl();
+                MyTest mytest = new MyTest();
                 mytest.Show();
+                MyTest.suseradmin = "true";//传递用户是否管理员
                 return;
             }
 

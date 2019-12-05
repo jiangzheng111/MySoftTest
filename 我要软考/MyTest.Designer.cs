@@ -32,6 +32,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.picwrong = new System.Windows.Forms.PictureBox();
+            this.picRight = new System.Windows.Forms.PictureBox();
             this.lblanswer = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -55,12 +57,16 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -70,30 +76,24 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.picwrong = new System.Windows.Forms.PictureBox();
-            this.picRight = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.dataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.miN_MAX_EXIT1 = new UI.MIN_MAX_EXIT();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picwrong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRight)).BeginInit();
+            this.panel6.SuspendLayout();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -109,7 +109,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(544, 594);
             this.tabControl1.TabIndex = 0;
-            this.tabControl1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseClick);
             // 
             // tabPage1
             // 
@@ -122,7 +121,7 @@
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(536, 568);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "练习";
@@ -149,10 +148,34 @@
             this.panel5.Controls.Add(this.button1);
             this.panel5.Controls.Add(this.textBox1);
             this.panel5.Location = new System.Drawing.Point(2, 0);
-            this.panel5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel5.Margin = new System.Windows.Forms.Padding(2);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(537, 527);
             this.panel5.TabIndex = 6;
+            // 
+            // picwrong
+            // 
+            this.picwrong.Image = global::UI.Properties.Resources.错;
+            this.picwrong.Location = new System.Drawing.Point(271, 315);
+            this.picwrong.Margin = new System.Windows.Forms.Padding(2);
+            this.picwrong.Name = "picwrong";
+            this.picwrong.Size = new System.Drawing.Size(46, 36);
+            this.picwrong.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picwrong.TabIndex = 31;
+            this.picwrong.TabStop = false;
+            this.picwrong.Visible = false;
+            // 
+            // picRight
+            // 
+            this.picRight.Image = global::UI.Properties.Resources.对;
+            this.picRight.Location = new System.Drawing.Point(271, 315);
+            this.picRight.Margin = new System.Windows.Forms.Padding(2);
+            this.picRight.Name = "picRight";
+            this.picRight.Size = new System.Drawing.Size(46, 36);
+            this.picRight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picRight.TabIndex = 30;
+            this.picRight.TabStop = false;
+            this.picRight.Visible = false;
             // 
             // lblanswer
             // 
@@ -182,7 +205,7 @@
             this.panel6.Controls.Add(this.btnUp);
             this.panel6.Controls.Add(this.btnPush);
             this.panel6.Location = new System.Drawing.Point(42, 356);
-            this.panel6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel6.Margin = new System.Windows.Forms.Padding(2);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(446, 34);
             this.panel6.TabIndex = 27;
@@ -190,7 +213,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(376, 5);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(59, 25);
             this.button6.TabIndex = 0;
@@ -200,7 +223,7 @@
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(190, 5);
-            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(59, 25);
             this.button5.TabIndex = 0;
@@ -210,7 +233,7 @@
             // btnDowm
             // 
             this.btnDowm.Location = new System.Drawing.Point(292, 5);
-            this.btnDowm.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDowm.Margin = new System.Windows.Forms.Padding(2);
             this.btnDowm.Name = "btnDowm";
             this.btnDowm.Size = new System.Drawing.Size(59, 25);
             this.btnDowm.TabIndex = 0;
@@ -221,7 +244,7 @@
             // btnUp
             // 
             this.btnUp.Location = new System.Drawing.Point(93, 5);
-            this.btnUp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnUp.Margin = new System.Windows.Forms.Padding(2);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(59, 25);
             this.btnUp.TabIndex = 0;
@@ -232,7 +255,7 @@
             // btnPush
             // 
             this.btnPush.Location = new System.Drawing.Point(7, 5);
-            this.btnPush.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnPush.Margin = new System.Windows.Forms.Padding(2);
             this.btnPush.Name = "btnPush";
             this.btnPush.Size = new System.Drawing.Size(59, 25);
             this.btnPush.TabIndex = 0;
@@ -254,7 +277,7 @@
             // 
             this.rdoAnswerD.AutoSize = true;
             this.rdoAnswerD.Location = new System.Drawing.Point(42, 288);
-            this.rdoAnswerD.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rdoAnswerD.Margin = new System.Windows.Forms.Padding(2);
             this.rdoAnswerD.Name = "rdoAnswerD";
             this.rdoAnswerD.Size = new System.Drawing.Size(95, 16);
             this.rdoAnswerD.TabIndex = 23;
@@ -267,7 +290,7 @@
             // 
             this.rdoAnswerC.AutoSize = true;
             this.rdoAnswerC.Location = new System.Drawing.Point(42, 247);
-            this.rdoAnswerC.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rdoAnswerC.Margin = new System.Windows.Forms.Padding(2);
             this.rdoAnswerC.Name = "rdoAnswerC";
             this.rdoAnswerC.Size = new System.Drawing.Size(95, 16);
             this.rdoAnswerC.TabIndex = 24;
@@ -280,7 +303,7 @@
             // 
             this.rdoAnswerB.AutoSize = true;
             this.rdoAnswerB.Location = new System.Drawing.Point(42, 204);
-            this.rdoAnswerB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rdoAnswerB.Margin = new System.Windows.Forms.Padding(2);
             this.rdoAnswerB.Name = "rdoAnswerB";
             this.rdoAnswerB.Size = new System.Drawing.Size(95, 16);
             this.rdoAnswerB.TabIndex = 25;
@@ -293,7 +316,7 @@
             // 
             this.rdoAnswerA.AutoSize = true;
             this.rdoAnswerA.Location = new System.Drawing.Point(42, 164);
-            this.rdoAnswerA.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rdoAnswerA.Margin = new System.Windows.Forms.Padding(2);
             this.rdoAnswerA.Name = "rdoAnswerA";
             this.rdoAnswerA.Size = new System.Drawing.Size(95, 16);
             this.rdoAnswerA.TabIndex = 22;
@@ -354,7 +377,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(428, 5111);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(69, 28);
             this.button1.TabIndex = 5;
@@ -364,7 +387,7 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(58, 5050);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.MaxLength = 150;
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -378,7 +401,7 @@
             "软件设计师",
             "程序员"});
             this.comboBox1.Location = new System.Drawing.Point(224, 30);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(92, 20);
             this.comboBox1.TabIndex = 3;
@@ -407,6 +430,18 @@
             this.label2.Text = "先隐藏年份";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::UI.Properties.Resources.档案袋;
+            this.pictureBox5.Location = new System.Drawing.Point(-46, -10);
+            this.pictureBox5.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(247, 183);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 4;
+            this.pictureBox5.TabStop = false;
+            this.pictureBox5.Click += new System.EventHandler(this.pictureBox5_Click);
+            // 
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -429,6 +464,17 @@
             this.label5.TabIndex = 2;
             this.label5.Text = "先隐藏年份";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::UI.Properties.Resources.档案袋;
+            this.pictureBox2.Location = new System.Drawing.Point(-44, -10);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(247, 183);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 5;
+            this.pictureBox2.TabStop = false;
             // 
             // panel3
             // 
@@ -453,6 +499,17 @@
             this.label4.Text = "先隐藏年份";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::UI.Properties.Resources.档案袋;
+            this.pictureBox1.Location = new System.Drawing.Point(-44, -10);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(247, 183);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -476,6 +533,17 @@
             this.label3.Text = "先隐藏年份";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Image = global::UI.Properties.Resources.档案袋;
+            this.pictureBox6.Location = new System.Drawing.Point(-44, -10);
+            this.pictureBox6.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(247, 183);
+            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox6.TabIndex = 5;
+            this.pictureBox6.TabStop = false;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -490,7 +558,7 @@
             this.tabPage2.Controls.Add(this.menuStrip1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(536, 568);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "笔记本";
@@ -530,7 +598,7 @@
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(536, 568);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "大厅";
@@ -540,7 +608,7 @@
             // 
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage4.Size = new System.Drawing.Size(536, 568);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "模拟考试";
@@ -549,82 +617,14 @@
             // tabPage5
             // 
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage5.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage5.Size = new System.Drawing.Size(536, 568);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "管理员";
             this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // picwrong
-            // 
-            this.picwrong.Image = global::UI.Properties.Resources.错;
-            this.picwrong.Location = new System.Drawing.Point(271, 315);
-            this.picwrong.Margin = new System.Windows.Forms.Padding(2);
-            this.picwrong.Name = "picwrong";
-            this.picwrong.Size = new System.Drawing.Size(46, 36);
-            this.picwrong.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picwrong.TabIndex = 31;
-            this.picwrong.TabStop = false;
-            this.picwrong.Visible = false;
-            // 
-            // picRight
-            // 
-            this.picRight.Image = global::UI.Properties.Resources.对;
-            this.picRight.Location = new System.Drawing.Point(271, 315);
-            this.picRight.Margin = new System.Windows.Forms.Padding(2);
-            this.picRight.Name = "picRight";
-            this.picRight.Size = new System.Drawing.Size(46, 36);
-            this.picRight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picRight.TabIndex = 30;
-            this.picRight.TabStop = false;
-            this.picRight.Visible = false;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Image = global::UI.Properties.Resources.档案袋;
-            this.pictureBox5.Location = new System.Drawing.Point(-46, -10);
-            this.pictureBox5.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(247, 183);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox5.TabIndex = 4;
-            this.pictureBox5.TabStop = false;
-            this.pictureBox5.Click += new System.EventHandler(this.pictureBox5_Click);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::UI.Properties.Resources.档案袋;
-            this.pictureBox2.Location = new System.Drawing.Point(-44, -10);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(247, 183);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 5;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::UI.Properties.Resources.档案袋;
-            this.pictureBox1.Location = new System.Drawing.Point(-44, -10);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(247, 183);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox6
-            // 
-            this.pictureBox6.Image = global::UI.Properties.Resources.档案袋;
-            this.pictureBox6.Location = new System.Drawing.Point(-44, -10);
-            this.pictureBox6.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(247, 183);
-            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox6.TabIndex = 5;
-            this.pictureBox6.TabStop = false;
+            this.tabPage5.Click += new System.EventHandler(this.tabPage5_Click);
             // 
             // miN_MAX_EXIT1
             // 
@@ -660,25 +660,25 @@
             this.tabPage1.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picwrong)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picRight)).EndInit();
             this.panel6.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picwrong)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picRight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
 

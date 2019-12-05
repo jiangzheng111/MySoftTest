@@ -80,7 +80,7 @@ namespace DAL
                     {
                         SUSER.SuserEmail = SQLDR["SuserEmail"].ToString().Trim();
                         SUSER.SuserPwd = SQLDR["SuserPwd"].ToString().Trim();
-                        SUSER.SuserOnLine = SQLDR["SuserOnLine"].ToString().Trim();
+                        SUSER.SuserAdmin = SQLDR["SuserAdmin"].ToString().Trim();
                         SQLDR.Close();
                     }
                     CMD.Dispose();
@@ -94,17 +94,17 @@ namespace DAL
         //这是一个大工程，要创建服务端，这位客户端，服务端与客户端间用套接字传送信息，服务端根据连接的ip有无，从而判断用户是否下线，若下线了，则根据送过来的ip地址，和账号，把它的数据库上线状态改为false
         public static Suser isOnLine()
         {
-            if (SUSER.SuserOnLine == "false")
-            { SUSER.SuserOnLine = "true"; }//暂时先不是用这个功能
-            else
-            { SUSER.SuserOnLine = "false"; }
+            //if (SUSER.SuserOnLine == "false")
+            //{ SUSER.SuserOnLine = "true"; }//暂时先不是用这个功能
+            //else
+            //{ SUSER.SuserOnLine = "false"; }
 
             using (SqlConnection CON = new SqlConnection(sqlcon()))
             {
                 CON.Open();
                 using (SqlCommand CMD = new SqlCommand("UPDATE SUSER SET SUSERONLINE=@suseronline where SUSEREMAIL=@suseremail", CON))
                 {
-                    CMD.Parameters.AddWithValue("@suseronline", SUSER.SuserOnLine);
+                    CMD.Parameters.AddWithValue("@suseronline", SUSER.SuserAdmin);
                     CMD.Parameters.AddWithValue("@suseremail", SUSER.SuserEmail);
                     var n = CMD.ExecuteNonQuery();
                     CMD.Dispose();
@@ -258,6 +258,7 @@ namespace DAL
         /// <param name="qbid">题库id</param>
         /// <param name="qid">题号id</param>
         /// <returns>Question</returns>
+        /// 
         public static Question readQuestion(int qbid, int qid)
         {
             using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
@@ -289,82 +290,182 @@ namespace DAL
             return QUESTION;
         }
 
-        //写入题号id，题库id，邮箱，错题
-        public static answerQuestions readSetANSWERQUESTIONS(int qId, int qBId, string SuserEmail, string myanswer, bool Wrong, bool collection, bool isRead, bool isExit)
+        ////用户状态表
+        //static Question_answerQuestions QUESTION_ANSWERQUESTIONS = new Question_answerQuestions();
+        //public static Question_answerQuestions readA_Q()
+        //{
+        //    //先读取有没有数据存在，
+
+        //    return QUESTION_ANSWERQUESTIONS;
+        //}
+
+        //读写要分离
+        //读 要依据题号，题库号读取就ok了
+        //写要依据题号，题库号，邮箱, 是否错题 而来写
+
+
+        public static answerQuestions setAnswerQuestions(int qId, int qBId, string SuserEmail, string myAnswer)
         {
-            //要先判断这条记录是否存在，不存在就插入，存在就修改
-            //set 题号id，题库id，邮箱
-            //先查询题号id，题库id，邮箱，是否存在 返回bool，存在就修改数据，不存在就插入
+            //判断作答的记录是否已经存在
+            Boolean Wrong = false;//标识是否错题
+            //用来判断是否是错题
             using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
             {
                 CON.Open();
-                if (isRead)//是否查询有记录
+                using (SqlCommand CMD = new SqlCommand("select * from Question where qId=@qId and qBId=@qBId", CON))
                 {
-                    using (SqlCommand CMD = new SqlCommand(selectAnswerQuestions, CON))
+                    CMD.Parameters.AddWithValue("@qId", qId);
+                    CMD.Parameters.AddWithValue("@qBId", qBId);
+                    sqlLink.SQLDR = CMD.ExecuteReader();
+                    if (sqlLink.SQLDR.Read())
                     {
-                        CMD.Parameters.AddWithValue("@qId", qId);
-                        CMD.Parameters.AddWithValue("@qBId", qBId);
-                        CMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
-                        CMD.Parameters.AddWithValue("@myanswer", myanswer);
-                        CMD.Parameters.AddWithValue("@Wrong", Wrong);
-                        CMD.Parameters.AddWithValue("@collection", collection);
-                        sqlLink.SQLDR = CMD.ExecuteReader();
-                        if (sqlLink.SQLDR.Read())
+                        //这三条语句表示是否存在记录
+                        ANSWERQUESTIONS.qId = int.Parse(sqlLink.SQLDR["qId"].ToString().Trim());
+                        ANSWERQUESTIONS.qBId = int.Parse(sqlLink.SQLDR["qId"].ToString().Trim());
+                        //ANSWERQUESTIONS.SuserEmail = sqlLink.SQLDR["SuserEmail"].ToString().Trim();
+
+                        QUESTION.answer = sqlLink.SQLDR["answer"].ToString().Trim();//获取正确答案
+                        sqlLink.SQLDR.Close();
+                        CON.Close();
+                    }
+                    if (myAnswer != QUESTION.answer)//比较作答的答案和正确的答案
+                    {
+                        Wrong = true;//标识是错题
+                    }
+                    else
+                    {
+                        Wrong = false;//标识不是错题
+                    }
+                    if (ANSWERQUESTIONS.SuserEmail == string.Empty)
+                    {
+                        //表示没有这个记录就可以插入
+                        using (SqlConnection ThisCON = new SqlConnection(sqlLink.sqlcon()))
                         {
-                            ANSWERQUESTIONS.isExit = true;
-                            sqlLink.SQLDR.Close();
-                            CMD.Dispose();
-                            using (SqlCommand thisCMD = new SqlCommand(updateCollection, CON))
+                            ThisCON.Open();
+                            using (SqlCommand ThisCMD = new SqlCommand("insert into answerQuestions(qId,qBId,SuserEmail,myAnswer,Wrong) values(@qId,@qBId,@SuserEmail,@myAnswer,@Wrong)", ThisCON))
                             {
-                                thisCMD.Parameters.AddWithValue("@qId", qId);
-                                thisCMD.Parameters.AddWithValue("@qBId", qBId);
-                                thisCMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
-                                thisCMD.Parameters.AddWithValue("@myanswer", myanswer);
-                                thisCMD.Parameters.AddWithValue("@Wrong", Wrong);
-                                thisCMD.Parameters.AddWithValue("@collection", collection);
-                                if (thisCMD.ExecuteNonQuery() > 0)
-                                {
-                                    ANSWERQUESTIONS.qId = qId;
-                                    ANSWERQUESTIONS.qBId = qBId;
-                                    ANSWERQUESTIONS.SuserEmail = SuserEmail;
-                                    ANSWERQUESTIONS.myanswer = myanswer;
-                                    ANSWERQUESTIONS.Wrong = Wrong;
-                                    ANSWERQUESTIONS.collection = collection;
-                                    thisCMD.Dispose();
-                                }
+                                //参数化防sql注入
+                                ThisCMD.Parameters.AddWithValue("@qId", qId);
+                                ThisCMD.Parameters.AddWithValue("@qBId", qBId);
+                                ThisCMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+                                ThisCMD.Parameters.AddWithValue("@myAnswer", myAnswer);
+                                ThisCMD.Parameters.AddWithValue("@Wrong", Wrong);
+
+                                //执行sql语句
+                                ThisCMD.ExecuteNonQuery();
                             }
-                        }
-                        else
-                        {
-                            sqlLink.SQLDR.Close();
-                            CMD.Dispose();
-                            using (SqlCommand thisCMD = new SqlCommand(insertAnswerQuestions, CON))//插入用户作答的记录
-                            {
-                                thisCMD.Parameters.AddWithValue("@qId", qId);
-                                thisCMD.Parameters.AddWithValue("@qBId", qBId);
-                                thisCMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
-                                thisCMD.Parameters.AddWithValue("@myanswer", myanswer);
-                                thisCMD.Parameters.AddWithValue("@Wrong", Wrong);
-                                thisCMD.Parameters.AddWithValue("@collection", collection);
-                                //var n = CMD.ExecuteNonQuery();
-                                if (thisCMD.ExecuteNonQuery() > 0)
-                                {
-                                    ANSWERQUESTIONS.qId = qId;
-                                    ANSWERQUESTIONS.qBId = qBId;
-                                    ANSWERQUESTIONS.SuserEmail = SuserEmail;
-                                    ANSWERQUESTIONS.myanswer = myanswer;
-                                    ANSWERQUESTIONS.Wrong = Wrong;
-                                    ANSWERQUESTIONS.collection = collection;
-                                }
-                                thisCMD.Dispose();
-                            }
-                            CON.Close();
+                            ThisCON.Close();
                         }
                     }
+                    //如果有这个记录就修改记录
+                    else
+                    {
+                        //用来修改作答
+                        using (SqlConnection ThisCON = new SqlConnection(sqlLink.sqlcon()))
+                        {
+                            ThisCON.Open();
+                            using (SqlCommand ThisCMD = new SqlCommand("update answerQuestions set myAnswer=@myAnswer ,Wrong=@Wrong where qId=@qId and qBId=@qBId and SuserEmail=@SuserEmail", ThisCON))
+                            {
+                                ThisCMD.Parameters.AddWithValue("@qId", qId);
+                                ThisCMD.Parameters.AddWithValue("@qBId", qBId);
+                                ThisCMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+                                ThisCMD.Parameters.AddWithValue("@myAnswer", myAnswer);
+                                ThisCMD.Parameters.AddWithValue("@Wrong", Wrong);
+                                ThisCMD.ExecuteNonQuery();
+                                ThisCMD.Dispose();
+                            }
+                            ThisCON.Close();
+                        }
+                    }
+                    CMD.Dispose();
                 }
+                //CON.Close();
             }
             return ANSWERQUESTIONS;
         }
+
+        #region 重构了读写作答表,重构后的代码在上面
+        //写入题号id，题库id，邮箱，错题
+        //public static answerQuestions readSetANSWERQUESTIONS(int qId, int qBId, string SuserEmail, string myanswer, bool Wrong, bool collection, bool isRead, bool isExit)
+        //{
+        //    要先判断这条记录是否存在，不存在就插入，存在就修改
+        //    set 题号id，题库id，邮箱
+        //    先查询题号id，题库id，邮箱，是否存在 返回bool，存在就修改数据，不存在就插入
+
+
+        //    读写分离
+        //     读有两种读， 读取题目选项，读取答题的记录，如何区分这两种的状态呢？读题一般都是空白的没有作答， 读取作答的记录一般都已经有了记录，可以先读取作答的记录，读取作答的记录要查询邮箱，题号，题库号，如果没有找到就读题，如果有找到，就填充题
+        //    using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
+        //    {
+        //        CON.Open();
+        //        if (isRead)//是否查询有记录
+        //        {
+        //            using (SqlCommand CMD = new SqlCommand(selectAnswerQuestions, CON))
+        //            {
+        //                CMD.Parameters.AddWithValue("@qId", qId);
+        //                CMD.Parameters.AddWithValue("@qBId", qBId);
+        //                CMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+        //                CMD.Parameters.AddWithValue("@myanswer", myanswer);
+        //                CMD.Parameters.AddWithValue("@Wrong", Wrong);
+        //                CMD.Parameters.AddWithValue("@collection", collection);
+        //                sqlLink.SQLDR = CMD.ExecuteReader();
+        //                if (sqlLink.SQLDR.Read())
+        //                {
+        //                    ANSWERQUESTIONS.isExit = true;
+        //                    sqlLink.SQLDR.Close();
+        //                    CMD.Dispose();
+        //                    using (SqlCommand thisCMD = new SqlCommand(updateCollection, CON))
+        //                    {
+        //                        thisCMD.Parameters.AddWithValue("@qId", qId);
+        //                        thisCMD.Parameters.AddWithValue("@qBId", qBId);
+        //                        thisCMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+        //                        thisCMD.Parameters.AddWithValue("@myanswer", myanswer);
+        //                        thisCMD.Parameters.AddWithValue("@Wrong", Wrong);
+        //                        thisCMD.Parameters.AddWithValue("@collection", collection);
+        //                        if (thisCMD.ExecuteNonQuery() > 0)
+        //                        {
+        //                            ANSWERQUESTIONS.qId = qId;
+        //                            ANSWERQUESTIONS.qBId = qBId;
+        //                            ANSWERQUESTIONS.SuserEmail = SuserEmail;
+        //                            ANSWERQUESTIONS.myanswer = myanswer;
+        //                            ANSWERQUESTIONS.Wrong = Wrong;
+        //                            ANSWERQUESTIONS.collection = collection;
+        //                            thisCMD.Dispose();
+        //                        }
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    sqlLink.SQLDR.Close();
+        //                    CMD.Dispose();
+        //                    using (SqlCommand thisCMD = new SqlCommand(insertAnswerQuestions, CON))//插入用户作答的记录
+        //                    {
+        //                        thisCMD.Parameters.AddWithValue("@qId", qId);
+        //                        thisCMD.Parameters.AddWithValue("@qBId", qBId);
+        //                        thisCMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+        //                        thisCMD.Parameters.AddWithValue("@myanswer", myanswer);
+        //                        thisCMD.Parameters.AddWithValue("@Wrong", Wrong);
+        //                        thisCMD.Parameters.AddWithValue("@collection", collection);
+        //                        var n = CMD.ExecuteNonQuery();
+        //                        if (thisCMD.ExecuteNonQuery() > 0)
+        //                        {
+        //                            ANSWERQUESTIONS.qId = qId;
+        //                            ANSWERQUESTIONS.qBId = qBId;
+        //                            ANSWERQUESTIONS.SuserEmail = SuserEmail;
+        //                            ANSWERQUESTIONS.myanswer = myanswer;
+        //                            ANSWERQUESTIONS.Wrong = Wrong;
+        //                            ANSWERQUESTIONS.collection = collection;
+        //                        }
+        //                        thisCMD.Dispose();
+        //                    }
+        //                    CON.Close();
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return ANSWERQUESTIONS;
+        //}
+        #endregion
     }
 
     public class DataSource_DataGridView

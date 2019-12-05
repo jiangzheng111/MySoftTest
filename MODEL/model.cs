@@ -15,7 +15,7 @@ namespace MODEL
         public string SuserEmail { get; set; }
         public string SuserName { get; set; }
         public string SuserPwd { get; set; }
-        public string SuserOnLine { get; set; }
+        public string SuserAdmin { get; set; }
     }
 
     /// <summary>
@@ -58,14 +58,26 @@ namespace MODEL
         public bool Wrong { get; set; }
         public bool collection { get; set; }
         public bool isExit { get; set; }//这是程序需要，数据库这个表中并没有这个列
-
-
-
-
-
-
-
     }
+
+    /// <summary>
+    /// 用户状态表，不需要存在数据库中，在程序中存在就可以
+    /// </summary>
+    public class Question_answerQuestions
+    {
+        public int qId { get; set; }
+        public int qBId { get; set; }
+        public string SuserEmail { get; set; }
+        public string myanswer { get; set; }
+        public string question { get; set; }
+        public string answerA { get; set; }
+        public string answerB { get; set; }
+        public string answerC { get; set; }
+        public string answerD { get; set; }
+        public string answer { get; set; }
+        public string parsing { get; set; }
+    }
+
     /// <summary>
     /// string Msg
     /// </summary>
