@@ -12,6 +12,10 @@ using DAL;
 //using System.Data.sqlite;
 using UI;
 
+
+
+// 现在差把状态读出来。如果第一作答了，点击了下一题再点击上一题时，应该把 作答的选项以对否展示出来，如果第一题没有作答，则点击下一题再点击上一题时，是没有作答的痕迹的。
+//现在差把作答的选择和正确的选择进行对比，从而控制显示是否对错，以及某个选项是否被选中，还有字符串null如何处理
 namespace 我要软考
 {
     public partial class MyTest : Form
@@ -28,15 +32,20 @@ namespace 我要软考
         string SuserEmail = "1316836373@qq.com";
         int qBId = 1;       //标识题库号
         int qId = 1;        //标识题号
-        bool isPush = false; //标识是否点击提交
+        bool isPush = true; //标识是否点击提交
         bool collection;    //标识 是否是收藏
-        ArrayList stateList = new ArrayList();//标识该题是否提交过
+
+        ArrayList StateList = new ArrayList();//标识该题是否提交过
+        ArrayList MyAnswerList = new ArrayList();//标识我作答的答案
+        ArrayList TheRightAnswerList = new ArrayList();//标识正确答案
+
         public static string suseremail;
         public static string suseradmin;
         private void My_Load(object sender, EventArgs e)
         {
             isPanelFalse(false);
             panel5.Visible = false;
+            parsing.Visible = false;//解析是否显示
             //dataGridView1.DataSource = BLL.bll.getDataset();
             DataSet ds = new DataSet();
             using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
@@ -138,7 +147,7 @@ namespace 我要软考
 
         private void btnPush_Click(object sender, EventArgs e)
         {
-            isPush = !isPush;//点击了提交
+            //isPush = !isPush;//点击了提交
             if (isPush)
             {
                 if (rdoAnswerA.Checked == false && rdoAnswerB.Checked == false && rdoAnswerC.Checked == false && rdoAnswerD.Checked == false)
@@ -151,22 +160,35 @@ namespace 我要软考
                 //给当前的题赋值状态
                 try
                 {
-                    if (stateList[qId - 1].ToString() == string.Empty)//如果当前的题号对应的状态值为空就给他赋值
+                    if (StateList[qId - 1].ToString() == string.Empty)//如果当前的题号对应的状态值为空就给他赋值
                     {
                     }
-                    if (stateList[qId-1].ToString()==false.ToString())
+                    if (StateList[qId - 1].ToString() == false.ToString())//如果按钮被记录没有点击，则点击后要修改记录值为已点击
                     {
-                        stateList[qId - 1] = true.ToString();
+                        StateList[qId - 1] = true.ToString();
                     }
                 }
                 catch (Exception)
                 {
-                    stateList.Add(true.ToString()); //赋值 有点击
+                    StateList.Add(true.ToString()); //赋值 有点击
+                }
+                if (StateList[qId - 1].ToString() == true.ToString())
+                {
+                    try //如果这语句报错则执行下一条语句
+                    {
+                        MyAnswerList[qId - 1] = lblmyAnswer.Text;
+                        TheRightAnswerList[qId - 1] = questionArray[7].ToString();
+                    }
+                    catch (Exception)
+                    {
+                        MyAnswerList.Add(lblmyAnswer.Text);//储存作答的选项
+                        TheRightAnswerList.Add(questionArray[7].ToString());//储存正确的答案
+                    }
                 }
 
                 if (lblmyAnswer.Text == questionArray[7].ToString())
                 {
-                    if (stateList[qId - 1].ToString() == true.ToString())
+                    if (StateList[qId - 1].ToString() == true.ToString())
                     {
                         btnPush.Enabled = false;
                         //btnPush.Enabled = false;
@@ -176,25 +198,29 @@ namespace 我要软考
                         picRight.Visible = true;
                         picwrong.Visible = false;
                         //numArray[qId] = true.ToString();
-                        //stateList[qId - 1] = true.ToString();
+                        //StateList[qId - 1] = true.ToString();
                     }
                 }
                 //判断是否答对  错
                 else
                 {
-                    //stateList.Add(true.ToString());//被点击了
-                    if (stateList[qId - 1].ToString() == true.ToString())//被点击了
+                    //StateList.Add(true.ToString());//被点击了
+                    if (StateList[qId - 1].ToString() == true.ToString())//被点击了
                     {
                         btnPush.Enabled = false;
+                        lblanswer.Text = questionArray[7].ToString();
                         //这要写入数据库，记录邮箱，题号，题库号，我的答案，是否错题，是否收藏。
                         //写入题号id，题库id，邮箱，错题
                         answerArray = BLL.bll.loadAnswer(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail, lblmyAnswer.Text);
                         picRight.Visible = false;
                         picwrong.Visible = true;
                         //numArray[qId] = true.ToString();
-                        //stateList[qId - 1] = true.ToString();
+                        //StateList[qId - 1] = true.ToString();
                     }
                 }
+                parsing.Visible = Convert.ToBoolean(StateList[qId - 1].ToString());//控制解析是否显示
+
+
                 //isPush = false;
                 //btnPush.Enabled = !isPush;//isPush=true 相等于按钮不可用 取反表示按钮不可用
             }
@@ -202,23 +228,30 @@ namespace 我要软考
         //接下来重构算法
         private void btnUp_Click(object sender, EventArgs e)
         {
+            //现在要拦截题号=1时，不能点击上一题，或点击上一题没有反应
+            if (qId == 1)
+            {
+                return;
+            }
             if (isPush == true)//如果按钮没有被点击
             {
-                if (stateList[qId - 2].ToString() != string.Empty)
+                if (StateList[qId - 2].ToString() != string.Empty)
                 {
                     //MessageBox.Show("Test");
                 }
-                //stateList.Add(false.ToString());//初始化按钮是否被点击
+                //StateList.Add(false.ToString());//初始化按钮是否被点击
                 else
                 {
-                    stateList[qId - 1] = false;
+                    StateList[qId - 1] = false.ToString();
                 }
+                parsing.Visible = Convert.ToBoolean(StateList[qId - 2].ToString());
             }
-            if (stateList[qId - 2].ToString() == true.ToString())
+
+            if (StateList[qId - 2].ToString() == true.ToString())
             {
                 btnPush.Enabled = false;
             }
-            if (stateList[qId-2].ToString()==false.ToString())
+            if (StateList[qId - 2].ToString() == false.ToString())
             {
                 btnPush.Enabled = true;
             }
@@ -235,7 +268,7 @@ namespace 我要软考
                 questionArray = BLL.bll.loadPaper(qBId, qId);
                 fill(questionArray, true);
                 //isPush = true;
-                //btnPush.Enabled = !Convert.ToBoolean(stateList[qId - 2].ToString());
+                //btnPush.Enabled = !Convert.ToBoolean(StateList[qId - 2].ToString());
                 lblanswer.Text = string.Empty;
                 lblmyAnswer.Text = string.Empty;
                 picRight.Visible = false;
@@ -245,43 +278,44 @@ namespace 我要软考
                 rdoAnswerC.Checked = false;
                 rdoAnswerD.Checked = false;
             }
+            try
+            {
+                if (MyAnswerList[qId - 1].ToString() == string.Empty)//如果当前的题并没有作答，则会报错，执行报错catch方法体里面的语句
+                {
+                }
+                else//如果当前的题已经作答过，则将作答的选择展示出来
+                {
+                    lblmyAnswer.Text = MyAnswerList[qId - 1].ToString();
+                    lblanswer.Text = TheRightAnswerList[qId - 1].ToString();
+                }
+            }
+            catch (Exception)
+            {
+                MyAnswerList.Add("null");
+                TheRightAnswerList.Add("null");
+            }
             //else
             //{
-            //    stateList[qId - 1] = true.ToString();
+            //    StateList[qId - 1] = true.ToString();
             //}
         }
 
         private void btnDowm_Click(object sender, EventArgs e)
         {
-            //if (isPush==true)
-            //{
-            //    stateList.Add(false.ToString());//初始化按钮是否被点击 上下题，输入输出没有控制好
-            //    if (stateList[qId-1].ToString()!=string.Empty)
-            //    {
-            //        stateList.Add(false.ToString());//初始化按钮是否被点击
-            //    }
-            //}
-            //if (stateList[qId - 1].ToString() == true.ToString())
-            //{
-            ////btnPush.Enabled = false;
-            //}
-
             try
             {
-                if (stateList[qId].ToString() == string.Empty)//如果当前的题号对应的状态值为空就给他赋值
+                if (StateList[qId].ToString() == string.Empty)//如果当前的题号对应的状态值为空就给他赋值
                 {
                 }
-                //else
-                //{
-                //    stateList[qId] = isPush.ToString(); //如果不为空，则给他赋值  点击了
-                //}
             }
             catch (Exception)
             {
-                stateList.Add(false.ToString()); //赋值 没有点击
+                StateList.Add(false.ToString()); //赋值 没有点击
             }
+
+
             //要先判断按钮有没有被点击 再依据按钮的状态去写入当前题的状态
-            //stateList.Add(false.ToString());
+            //StateList.Add(false.ToString());
             if (qId >= 1)
             {
                 qId++;
@@ -300,11 +334,28 @@ namespace 我要软考
             }
             try
             {
-                btnPush.Enabled = !Convert.ToBoolean(stateList[qId - 1].ToString());
+                btnPush.Enabled = !Convert.ToBoolean(StateList[qId - 1].ToString());
+                parsing.Visible = Convert.ToBoolean(StateList[qId - 1].ToString());
             }
             catch (Exception)
             {
                 btnPush.Enabled = true;
+            }
+            try
+            {
+                if (MyAnswerList[qId - 1].ToString() == string.Empty)//如果当前的题并没有作答，则会报错，执行报错catch方法体里面的语句
+                {
+                }
+                else//如果当前的题已经作答过，则将作答的选择展示出来
+                {
+                    lblmyAnswer.Text = MyAnswerList[qId - 1].ToString();
+                    lblanswer.Text = TheRightAnswerList[qId - 1].ToString();
+                }
+            }
+            catch (Exception)
+            {
+                MyAnswerList.Add("null");
+                TheRightAnswerList.Add("null");
             }
         }
 
@@ -348,7 +399,7 @@ namespace 我要软考
         /// </summary>
         private void myAnswertxt()
         {
-            isPush = !isPush;
+            //isPush = !isPush;
             if (isPush)
             {
                 if (rdoAnswerA.Checked == true)
