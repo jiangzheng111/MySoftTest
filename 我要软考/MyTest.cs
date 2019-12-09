@@ -16,6 +16,8 @@ using UI;
 
 // 现在差把状态读出来。如果第一作答了，点击了下一题再点击上一题时，应该把 作答的选项以对否展示出来，如果第一题没有作答，则点击下一题再点击上一题时，是没有作答的痕迹的。
 //现在差把作答的选择和正确的选择进行对比，从而控制显示是否对错，以及某个选项是否被选中，还有字符串null如何处理
+//先处理上下提的null的显示
+//现在处理选项是否被选中，以及对错
 namespace 我要软考
 {
     public partial class MyTest : Form
@@ -26,14 +28,16 @@ namespace 我要软考
         }
         string[] questionArray;//储存一道的所有数据
         //string[] numArray;
-        int[] ruanjianshejishi_qBId = { 1, 2, 3, 4 };//标识有多少份题
-        int[] chenxuyuan_qBId = { 5, 6 };//标识有多少份题
+        int[] ruanjianshejishi_qBId = { 1, 2, 3, 4 };//标识有多少软件设计师的题
+        int[] chenxuyuan_qBId = { 5, 6 };//标识有多少份程序员的题
         string[] answerArray;//记录作答的记录
-        string SuserEmail = "1316836373@qq.com";
+        string SuserEmail = "1316836373@qq.com";//测试用的邮箱，测试完可以删掉。
         int qBId = 1;       //标识题库号
         int qId = 1;        //标识题号
         bool isPush = true; //标识是否点击提交
         bool collection;    //标识 是否是收藏
+        static int Morning = 75;   //上午题目总数
+        static int Afternoon = 5;  //下午题总数
 
         ArrayList StateList = new ArrayList();//标识该题是否提交过
         ArrayList MyAnswerList = new ArrayList();//标识我作答的答案
@@ -71,6 +75,7 @@ namespace 我要软考
             panel4.Visible = istrue;
         }
 
+        //控制用户选中的科目
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox1.Text)
@@ -91,6 +96,7 @@ namespace 我要软考
             }
         }
 
+        //控制科目的图片
         private void pictureBox5_Click(object sender, EventArgs e)
         {
             if (label2.Text == BLL.bll.qbdaytype(ruanjianshejishi_qBId[0]).ToString())
@@ -118,11 +124,12 @@ namespace 我要软考
                 parsing.Text = string.Empty;
                 comments.Text = string.Empty;
             }
-            lblqId.Text = "第" + thisquestionArray[0].ToString() + "题";
+            lblqId.Text = "第" + thisquestionArray[0].ToString() + "题 ";
             rdoAnswerA.Text = "A. " + thisquestionArray[3].ToString();
             rdoAnswerB.Text = "B. " + thisquestionArray[4].ToString();
             rdoAnswerC.Text = "C. " + thisquestionArray[5].ToString();
             rdoAnswerD.Text = "D. " + thisquestionArray[6].ToString();
+            parsing.Text = "解析  ";
             string strQuestion = thisquestionArray[2];
             string strParsing = thisquestionArray[8];
             string strComments = thisquestionArray[9];
@@ -142,12 +149,12 @@ namespace 我要软考
             {
                 comments.Text += commentsArray[i].ToString() + "\n";
             }
-
+            btnConlletionText();
         }
 
+        //点击了提交
         private void btnPush_Click(object sender, EventArgs e)
         {
-            //isPush = !isPush;//点击了提交
             if (isPush)
             {
                 if (rdoAnswerA.Checked == false && rdoAnswerB.Checked == false && rdoAnswerC.Checked == false && rdoAnswerD.Checked == false)
@@ -155,9 +162,8 @@ namespace 我要软考
                     MessageBox.Show("你还没有选择答案哦");
                     return;
                 }
-                //判断是否答对  对
-
-                //给当前的题赋值状态
+                //qId - 1在这里标识当前的题，从所周知数组的下标是从零开始的，qid是题号到数组里自然要减一。
+                //给当前的题赋值是否作答的状态 true为作答，false为未作答
                 try
                 {
                     if (StateList[qId - 1].ToString() == string.Empty)//如果当前的题号对应的状态值为空就给他赋值
@@ -170,22 +176,50 @@ namespace 我要软考
                 }
                 catch (Exception)
                 {
-                    StateList.Add(true.ToString()); //赋值 有点击
+                    StateList.Add(true.ToString()); //赋值 有作答
                 }
                 if (StateList[qId - 1].ToString() == true.ToString())
                 {
                     try //如果这语句报错则执行下一条语句
-                    {
+                    {   //如果当前的数组下标对应的值没有进行赋值，则会执行catch这语句块里的赋值语句
                         MyAnswerList[qId - 1] = lblmyAnswer.Text;
                         TheRightAnswerList[qId - 1] = questionArray[7].ToString();
+
                     }
                     catch (Exception)
                     {
                         MyAnswerList.Add(lblmyAnswer.Text);//储存作答的选项
                         TheRightAnswerList.Add(questionArray[7].ToString());//储存正确的答案
                     }
+                    switch (lblmyAnswer.Text)
+                    {
+                        case "A":
+                            rdoAnswerA.Checked = true;
+                            rdoAnswerB.Enabled = false;
+                            rdoAnswerC.Enabled = false;
+                            rdoAnswerD.Enabled = false;
+                            break;
+                        case "B":
+                            rdoAnswerB.Checked = true;
+                            rdoAnswerA.Enabled = false;
+                            rdoAnswerC.Enabled = false;
+                            rdoAnswerD.Enabled = false;
+                            break;
+                        case "C":
+                            rdoAnswerA.Enabled = false;
+                            rdoAnswerB.Enabled = false;
+                            rdoAnswerC.Checked = true;
+                            rdoAnswerD.Enabled = false;
+                            break;
+                        case "D":
+                            rdoAnswerA.Enabled = false;
+                            rdoAnswerB.Enabled = false;
+                            rdoAnswerC.Enabled = false;
+                            rdoAnswerD.Checked = true;
+                            break;
+                    }
                 }
-
+                //判断是否答对  对
                 if (lblmyAnswer.Text == questionArray[7].ToString())
                 {
                     if (StateList[qId - 1].ToString() == true.ToString())
@@ -244,16 +278,47 @@ namespace 我要软考
                 {
                     StateList[qId - 1] = false.ToString();
                 }
-                parsing.Visible = Convert.ToBoolean(StateList[qId - 2].ToString());
+                parsing.Visible = Convert.ToBoolean(StateList[qId - 2].ToString());//控制解析是否显示
             }
 
             if (StateList[qId - 2].ToString() == true.ToString())
             {
                 btnPush.Enabled = false;
+                switch (lblmyAnswer.Text)
+                {
+                    case "A":
+                        rdoAnswerA.Checked = true;
+                        rdoAnswerB.Enabled = false;
+                        rdoAnswerC.Enabled = false;
+                        rdoAnswerD.Enabled = false;
+                        break;
+                    case "B":
+                        rdoAnswerB.Checked = true;
+                        rdoAnswerA.Enabled = false;
+                        rdoAnswerC.Enabled = false;
+                        rdoAnswerD.Enabled = false;
+                        break;
+                    case "C":
+                        rdoAnswerA.Enabled = false;
+                        rdoAnswerB.Enabled = false;
+                        rdoAnswerC.Checked = true;
+                        rdoAnswerD.Enabled = false;
+                        break;
+                    case "D":
+                        rdoAnswerA.Enabled = false;
+                        rdoAnswerB.Enabled = false;
+                        rdoAnswerC.Enabled = false;
+                        rdoAnswerD.Checked = true;
+                        break;
+                }
             }
             if (StateList[qId - 2].ToString() == false.ToString())
             {
                 btnPush.Enabled = true;
+                rdoAnswerA.Enabled = true;
+                rdoAnswerB.Enabled = true;
+                rdoAnswerC.Enabled = true;
+                rdoAnswerD.Enabled = true;
             }
             if (qId <= 1)
             {
@@ -288,16 +353,95 @@ namespace 我要软考
                     lblmyAnswer.Text = MyAnswerList[qId - 1].ToString();
                     lblanswer.Text = TheRightAnswerList[qId - 1].ToString();
                 }
+                if (lblanswer.Text == "null")
+                {
+                    lblanswer.Text = "";
+                    lblmyAnswer.Text = "";
+                }
+                else
+                {
+                    if (lblanswer.Text == lblmyAnswer.Text)
+                    {
+                        picRight.Visible = true;
+                    }
+                    else
+                    {
+                        picwrong.Visible = true;
+                    }
+                    //lblanswer.Text
+                    //这要根据是否点击提交而判断
+                    //当已被点击，应该为false
+                    //当没有被点击，应该为true；
+                    //三个事件
+                    //第一个事件，当点击按钮提交，应该为false
+                    //第二个事件，当点击下一题时，应该根据他是否为true，是则为false，否则true；
+                    //第三个事件，当点击上一题时，应该根据他是否为true，时则为false，否则true；
+                }
             }
             catch (Exception)
             {
                 MyAnswerList.Add("null");
                 TheRightAnswerList.Add("null");
             }
+            if (!btnPush.Enabled)
+            {
+                switch (lblmyAnswer.Text)
+                {
+                    case "A":
+                        rdoAnswerA.Checked = true;
+                        rdoAnswerB.Enabled = false;
+                        rdoAnswerC.Enabled = false;
+                        rdoAnswerD.Enabled = false;
+                        break;
+                    case "B":
+                        rdoAnswerB.Checked = true;
+                        rdoAnswerA.Enabled = false;
+                        rdoAnswerC.Enabled = false;
+                        rdoAnswerD.Enabled = false;
+                        break;
+                    case "C":
+                        rdoAnswerA.Enabled = false;
+                        rdoAnswerB.Enabled = false;
+                        rdoAnswerC.Checked = true;
+                        rdoAnswerD.Enabled = false;
+                        break;
+                    case "D":
+                        rdoAnswerA.Enabled = false;
+                        rdoAnswerB.Enabled = false;
+                        rdoAnswerC.Enabled = false;
+                        rdoAnswerD.Checked = true;
+                        break;
+                    //case "null":
+                    //    rdoAnswerA.Enabled = true;
+                    //    rdoAnswerB.Enabled = true;
+                    //    rdoAnswerC.Enabled = true;
+                    //    rdoAnswerD.Enabled = true;
+                }
+            }
+            else
+            {
+                rdoAnswerA.Enabled = true;
+                rdoAnswerB.Enabled = true;
+                rdoAnswerC.Enabled = true;
+                rdoAnswerD.Enabled = true;
+            }
             //else
             //{
             //    StateList[qId - 1] = true.ToString();
             //}
+
+            //写成一个方法
+            //var istrue = BLL.bll.readCollection(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail);
+            //if (istrue)
+            //{
+            //    btnCollection.Text = "已收藏";
+            //}
+            //else
+            //{
+            //    btnCollection.Text = "未收藏";
+            //}
+            btnConlletionText();
+
         }
 
         private void btnDowm_Click(object sender, EventArgs e)
@@ -341,6 +485,7 @@ namespace 我要软考
             {
                 btnPush.Enabled = true;
             }
+
             try
             {
                 if (MyAnswerList[qId - 1].ToString() == string.Empty)//如果当前的题并没有作答，则会报错，执行报错catch方法体里面的语句
@@ -351,11 +496,120 @@ namespace 我要软考
                     lblmyAnswer.Text = MyAnswerList[qId - 1].ToString();
                     lblanswer.Text = TheRightAnswerList[qId - 1].ToString();
                 }
+                if (lblanswer.Text == "null")
+                {
+                    lblanswer.Text = "";
+                    lblmyAnswer.Text = "";
+                }
+                else
+                {
+                    if (lblanswer.Text == lblmyAnswer.Text)
+                    {
+                        picRight.Visible = true;
+                    }
+                    else
+                    {
+                        picwrong.Visible = true;
+                    }
+                }
             }
             catch (Exception)
             {
                 MyAnswerList.Add("null");
                 TheRightAnswerList.Add("null");
+            }
+            if (!btnPush.Enabled)
+            {
+                switch (lblmyAnswer.Text)
+                {
+                    case "A":
+                        rdoAnswerA.Checked = true;
+                        rdoAnswerB.Enabled = false;
+                        rdoAnswerC.Enabled = false;
+                        rdoAnswerD.Enabled = false;
+                        break;
+                    case "B":
+                        rdoAnswerB.Checked = true;
+                        rdoAnswerA.Enabled = false;
+                        rdoAnswerC.Enabled = false;
+                        rdoAnswerD.Enabled = false;
+                        break;
+                    case "C":
+                        rdoAnswerA.Enabled = false;
+                        rdoAnswerB.Enabled = false;
+                        rdoAnswerC.Checked = true;
+                        rdoAnswerD.Enabled = false;
+                        break;
+                    case "D":
+                        rdoAnswerA.Enabled = false;
+                        rdoAnswerB.Enabled = false;
+                        rdoAnswerC.Enabled = false;
+                        rdoAnswerD.Checked = true;
+                        break;
+                    //case "null":
+                    //    rdoAnswerA.Enabled = true;
+                    //    rdoAnswerB.Enabled = true;
+                    //    rdoAnswerC.Enabled = true;
+                    //    rdoAnswerD.Enabled = true;
+                }
+            }
+            else
+            {
+                rdoAnswerA.Enabled = true;
+                rdoAnswerB.Enabled = true;
+                rdoAnswerC.Enabled = true;
+                rdoAnswerD.Enabled = true;
+            }
+            btnConlletionText();
+            //var istrue = BLL.bll.readCollection(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail);
+            //if (istrue)
+            //{
+            //    btnCollection.Text = "已收藏";
+            //}
+            //else
+            //{
+            //    btnCollection.Text = "未收藏";
+            //}
+        }
+
+        //判断已收藏或未收藏
+        public void btnConlletionText()
+        {
+            var istrue = BLL.bll.readCollection(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail);
+            if (istrue)
+            {
+                btnCollection.Text = "已收藏";
+            }
+            else
+            {
+                btnCollection.Text = "未收藏";
+            }
+        }
+
+        //怎么制作收藏和移除收藏
+        //根据题号，题库号，邮箱，进行收藏。点击收藏时进行收藏，点击移除时移除收藏
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            if (istrue)//收藏
+            {
+                collection = true;
+                pictureBox3.Visible = true;
+                pictureBox4.Visible = false;
+                istrue = !istrue;
+                BLL.bll.setCollection(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail, collection);
+                //根据题号，题库号，邮箱，进行收藏
+            }
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            if (!istrue)//移除收藏
+            {
+                collection = false;
+                pictureBox3.Visible = false;
+                pictureBox4.Visible = true;
+                istrue = !istrue;
+                BLL.bll.setCollection(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail, collection);
             }
         }
 
@@ -460,5 +714,75 @@ namespace 我要软考
                 MessageBox.Show("请升级为管理员！");
             }
         }
+        bool istrue = true;
+
+        private void btnCollection_Click(object sender, EventArgs e)
+        {
+            var istrue = BLL.bll.readCollection(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail);
+            if (btnCollection.Text == "未收藏")
+            {
+                MessageBox.Show("已添加收藏");
+                collection = true;
+                //pictureBox3.Visible = false;
+                //pictureBox4.Visible = true;
+                istrue = !istrue;
+                BLL.bll.setCollection(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail, collection);
+                btnCollection.Text = "已收藏";
+            }
+            else
+            {
+                MessageBox.Show("已移除收藏");
+                collection = false;
+                //pictureBox3.Visible = false;
+                //pictureBox4.Visible = true;
+                istrue = !istrue;
+                BLL.bll.setCollection(int.Parse(questionArray[0].ToString()), int.Parse(questionArray[1].ToString()), SuserEmail, collection);
+                btnCollection.Text = "未收藏";
+
+            }
+
+        }
+
+
+        Button[] bnt = new Button[Morning+1];
+        bool isbtn = true;
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (isbtn)
+            {
+                panel7.Visible = true;
+                isbtn = !isbtn;
+                //Morning =
+                //Afternoon
+                for (int i = 0; i < Morning; i++)
+                {
+                    //实例化
+                    bnt[i] = new Button();
+                    //定义控件名称
+                    bnt[i].Name = "bntton_" + (i + 1).ToString();
+                    //定义text属性，可以用string数组初始化为指定值
+                    bnt[i].Text = (i + 1).ToString();
+                    //注：如果不指定父容器，则坐标是相对于主窗体的
+                    bnt[i].Parent = panel7;
+                    //定义坐标
+                    bnt[i ].Location = new Point(20 + (i % 16) * 30, 5 + (i / 16) * 30);
+                    //调整大小
+                    //bnt[i].AutoSize = true;
+                    bnt[i ].Size = new Size(25, 25);
+                    //批量添加事件
+                    bnt[i].Click += new EventHandler(bntton_Click);
+                }
+            }
+            else
+            {
+                panel7.Visible = false;
+                isbtn = !isbtn;
+            }
+        }
+        private void bntton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("点击了 " + ((Button)sender).Name.ToString());
+        }
+
     }
 }

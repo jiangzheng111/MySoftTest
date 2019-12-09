@@ -73,6 +73,26 @@ namespace UI.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap 上一题 {
+            get {
+                object obj = ResourceManager.GetObject("上一题", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 下一题 {
+            get {
+                object obj = ResourceManager.GetObject("下一题", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap 人物_增加 {
             get {
                 object obj = ResourceManager.GetObject("人物-增加", resourceCulture);
@@ -96,6 +116,26 @@ namespace UI.Properties {
         internal static System.Drawing.Bitmap 对 {
             get {
                 object obj = ResourceManager.GetObject("对", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 收藏灰 {
+            get {
+                object obj = ResourceManager.GetObject("收藏灰", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 收藏蓝 {
+            get {
+                object obj = ResourceManager.GetObject("收藏蓝", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

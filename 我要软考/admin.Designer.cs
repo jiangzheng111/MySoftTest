@@ -63,6 +63,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -87,6 +89,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(1560, 598);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseClick);
             // 
             // qId
             // 
@@ -154,7 +157,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("宋体", 24F);
-            this.button1.Location = new System.Drawing.Point(53, 632);
+            this.button1.Location = new System.Drawing.Point(53, 656);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(318, 97);
             this.button1.TabIndex = 3;
@@ -165,7 +168,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("宋体", 24F);
-            this.button3.Location = new System.Drawing.Point(404, 632);
+            this.button3.Location = new System.Drawing.Point(404, 656);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(318, 97);
             this.button3.TabIndex = 3;
@@ -176,7 +179,7 @@
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("宋体", 24F);
-            this.button4.Location = new System.Drawing.Point(753, 632);
+            this.button4.Location = new System.Drawing.Point(753, 656);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(318, 97);
             this.button4.TabIndex = 3;
@@ -222,6 +225,8 @@
             this.textBox9.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox9.Size = new System.Drawing.Size(260, 121);
             this.textBox9.TabIndex = 14;
+            this.textBox9.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox9_MouseClick);
+            this.textBox9.MouseHover += new System.EventHandler(this.textBox9_MouseHover);
             this.textBox9.MouseMove += new System.Windows.Forms.MouseEventHandler(this.textBox9_MouseMove);
             // 
             // textBox7
@@ -313,7 +318,7 @@
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("宋体", 24F);
-            this.button5.Location = new System.Drawing.Point(1113, 632);
+            this.button5.Location = new System.Drawing.Point(1113, 656);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(318, 97);
             this.button5.TabIndex = 3;
@@ -391,11 +396,31 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(53, 602);
+            this.textBox11.Multiline = true;
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(450, 21);
+            this.textBox11.TabIndex = 33;
+            this.textBox11.Text = "测试";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(53, 603);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.TabIndex = 34;
+            this.label1.Text = "label1";
+            // 
             // admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1552, 759);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox11);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label7);
@@ -467,5 +492,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Label label1;
     }
 }

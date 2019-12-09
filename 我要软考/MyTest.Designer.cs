@@ -32,12 +32,15 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.picwrong = new System.Windows.Forms.PictureBox();
             this.picRight = new System.Windows.Forms.PictureBox();
             this.lblanswer = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btnCollection = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.btnDowm = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
@@ -78,9 +81,13 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.dataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.miN_MAX_EXIT1 = new UI.MIN_MAX_EXIT();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picwrong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRight)).BeginInit();
             this.panel6.SuspendLayout();
@@ -95,6 +102,7 @@
             this.tabPage2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetBindingSource)).BeginInit();
+            this.tabControl2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -107,7 +115,7 @@
             this.tabControl1.Location = new System.Drawing.Point(9, 39);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(544, 594);
+            this.tabControl1.Size = new System.Drawing.Size(544, 551);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -122,7 +130,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(536, 568);
+            this.tabPage1.Size = new System.Drawing.Size(536, 525);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "练习";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -130,6 +138,10 @@
             // panel5
             // 
             this.panel5.AutoScroll = true;
+            this.panel5.Controls.Add(this.tabControl2);
+            this.panel5.Controls.Add(this.panel7);
+            this.panel5.Controls.Add(this.pictureBox4);
+            this.panel5.Controls.Add(this.pictureBox3);
             this.panel5.Controls.Add(this.picwrong);
             this.panel5.Controls.Add(this.picRight);
             this.panel5.Controls.Add(this.lblanswer);
@@ -150,8 +162,41 @@
             this.panel5.Location = new System.Drawing.Point(2, 0);
             this.panel5.Margin = new System.Windows.Forms.Padding(2);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(537, 527);
+            this.panel5.Size = new System.Drawing.Size(537, 522);
             this.panel5.TabIndex = 6;
+            // 
+            // panel7
+            // 
+            this.panel7.Location = new System.Drawing.Point(11, 63);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(496, 288);
+            this.panel7.TabIndex = 34;
+            this.panel7.Visible = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::UI.Properties.Resources.收藏灰;
+            this.pictureBox4.Location = new System.Drawing.Point(418, 315);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(46, 36);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 33;
+            this.pictureBox4.TabStop = false;
+            this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::UI.Properties.Resources.收藏蓝;
+            this.pictureBox3.Location = new System.Drawing.Point(418, 315);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(46, 36);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 32;
+            this.pictureBox3.TabStop = false;
+            this.pictureBox3.Visible = false;
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // picwrong
             // 
@@ -199,7 +244,7 @@
             // 
             // panel6
             // 
-            this.panel6.Controls.Add(this.button6);
+            this.panel6.Controls.Add(this.btnCollection);
             this.panel6.Controls.Add(this.button5);
             this.panel6.Controls.Add(this.btnDowm);
             this.panel6.Controls.Add(this.btnUp);
@@ -210,15 +255,16 @@
             this.panel6.Size = new System.Drawing.Size(446, 34);
             this.panel6.TabIndex = 27;
             // 
-            // button6
+            // btnCollection
             // 
-            this.button6.Location = new System.Drawing.Point(376, 5);
-            this.button6.Margin = new System.Windows.Forms.Padding(2);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(59, 25);
-            this.button6.TabIndex = 0;
-            this.button6.Text = "收藏";
-            this.button6.UseVisualStyleBackColor = true;
+            this.btnCollection.Location = new System.Drawing.Point(376, 5);
+            this.btnCollection.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCollection.Name = "btnCollection";
+            this.btnCollection.Size = new System.Drawing.Size(59, 25);
+            this.btnCollection.TabIndex = 0;
+            this.btnCollection.Text = "收藏";
+            this.btnCollection.UseVisualStyleBackColor = true;
+            this.btnCollection.Click += new System.EventHandler(this.btnCollection_Click);
             // 
             // button5
             // 
@@ -229,6 +275,7 @@
             this.button5.TabIndex = 0;
             this.button5.Text = "题目";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // btnDowm
             // 
@@ -559,7 +606,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(536, 568);
+            this.tabPage2.Size = new System.Drawing.Size(536, 525);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "笔记本";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -599,7 +646,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(536, 568);
+            this.tabPage3.Size = new System.Drawing.Size(536, 525);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "大厅";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -609,7 +656,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(536, 568);
+            this.tabPage4.Size = new System.Drawing.Size(536, 525);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "模拟考试";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -620,7 +667,7 @@
             this.tabPage5.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage5.Size = new System.Drawing.Size(536, 568);
+            this.tabPage5.Size = new System.Drawing.Size(536, 525);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "管理员";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -638,6 +685,26 @@
             this.miN_MAX_EXIT1.TabIndex = 1;
             this.miN_MAX_EXIT1.WindowState = System.Windows.Forms.FormWindowState.Normal;
             this.miN_MAX_EXIT1.Load += new System.EventHandler(this.miN_MAX_EXIT1_Load);
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage6);
+            this.tabControl2.Location = new System.Drawing.Point(11, 63);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(493, 288);
+            this.tabControl2.TabIndex = 0;
+            this.tabControl2.Visible = false;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(485, 262);
+            this.tabPage6.TabIndex = 0;
+            this.tabPage6.Text = "tabPage6";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // MyTest
             // 
@@ -660,6 +727,8 @@
             this.tabPage1.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picwrong)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRight)).EndInit();
             this.panel6.ResumeLayout(false);
@@ -680,6 +749,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetBindingSource)).EndInit();
+            this.tabControl2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -716,7 +786,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label comments;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button btnCollection;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button btnDowm;
         private System.Windows.Forms.Button btnUp;
@@ -735,6 +805,11 @@
         private System.Windows.Forms.PictureBox picRight;
         private System.Windows.Forms.PictureBox picwrong;
         private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage6;
         //private UI._119_23_54_113DataSet _119_23_54_113DataSet;
     }
 }

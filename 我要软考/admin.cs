@@ -53,7 +53,7 @@ namespace UI
             //DataGridView1.CurrentRow.Index
         }
 
-      
+
         public void Display()
         {
             using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
@@ -76,12 +76,12 @@ namespace UI
         DataTable mytable = ds.Tables["Question"];
         private void button1_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("确认修改题号 "+textBox1.Text+" 题库号 "+textBox2.Text+" 的内容？", "标题", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("确认修改题号 " + textBox1.Text + " 题库号 " + textBox2.Text + " 的内容？", "标题", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (result == DialogResult.OK)
             {
                 //确定按钮的方法
                 //DataTable mytable = ds.Tables["Question"];
-                string commandStr = "update Question set qId =@textBox1, qBId =@textBox2, question = @textBox3, answerA =@textBox4 where qId =@textBox1";
+                string commandStr = "update Question set question = @textBox3, answerA =@textBox4 ,answerB =@textBox5, answerC =@textBox6,answerD =@textBox7,answer =@textBox8, parsing =@textBox9 where qId =@textBox1 and qBId=@textBox2";
                 using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
                 {
                     CON.Open();
@@ -91,6 +91,12 @@ namespace UI
                         CMD.Parameters.AddWithValue("@textBox2", textBox2.Text.Trim());
                         CMD.Parameters.AddWithValue("@textBox3", textBox3.Text.Trim());
                         CMD.Parameters.AddWithValue("@textBox4", textBox4.Text.Trim());
+                        CMD.Parameters.AddWithValue("@textBox5", textBox5.Text.Trim());
+                        CMD.Parameters.AddWithValue("@textBox6", textBox6.Text.Trim());
+                        CMD.Parameters.AddWithValue("@textBox7", textBox7.Text.Trim());
+                        CMD.Parameters.AddWithValue("@textBox8", textBox8.Text.Trim());
+                        CMD.Parameters.AddWithValue("@textBox9", textBox9.Text.Trim());
+
                         SqlDataAdapter da = new SqlDataAdapter(CMD);
                         CMD.ExecuteNonQuery();
                         ds.Tables["Question"].Clear();
@@ -138,6 +144,7 @@ namespace UI
         {
             DialogResult result = MessageBox.Show("确定删除题号 " + textBox1.Text + " 题库号 " + textBox2.Text + " 的内容？", "标题", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             string commandStr = "delete from Question  where qId=@qId and qBId=@qBId";
+            string ThiscommandStr = "delete from answerQuestions  where qId=@qId and qBId=@qBId";
             if (result == DialogResult.OK)
             {
                 using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
@@ -145,10 +152,15 @@ namespace UI
                     CON.Open();
                     using (SqlCommand CMD = new SqlCommand(commandStr, CON))
                     {
+                        SqlCommand ThisCMD = new SqlCommand(ThiscommandStr, CON);
                         CMD.Parameters.AddWithValue("@qId", textBox1.Text);
                         CMD.Parameters.AddWithValue("@qBId", textBox2.Text);
+                        ThisCMD.Parameters.AddWithValue("@qId", textBox1.Text);
+                        ThisCMD.Parameters.AddWithValue("@qBId", textBox2.Text);
+                        ThisCMD.ExecuteNonQuery();
                         CMD.ExecuteNonQuery();
                         CMD.Dispose();
+                        ThisCMD.Dispose();
                         button2_Click(sender, e);
                     }
                     CON.Close();
@@ -164,10 +176,10 @@ namespace UI
             SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, sqlLink.sqlcon());
             dataAdapter.Fill(ds, "Question");
             dataGridView1.DataSource = ds.Tables["Question"];
-            dataGridView1_CellContentClick(sender ,ee);
+            dataGridView1_CellContentClick(sender, ee);
         }
 
-       
+
 
         private void button5_Click(object sender, EventArgs e)
         {
@@ -182,10 +194,10 @@ namespace UI
                     }
                 }
             }
-            DialogResult result = MessageBox.Show("确定要添加这组数据？","标题",MessageBoxButtons.OKCancel,MessageBoxIcon.Question);
-            if (result==DialogResult.OK)
+            DialogResult result = MessageBox.Show("确定要添加这组数据？", "标题", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (result == DialogResult.OK)
             {
-                using (SqlConnection CON=new SqlConnection(sqlLink.sqlcon()))
+                using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
                 {
                     CON.Open();
                     using (SqlCommand CMD = new SqlCommand("insert into  Question (qId,qBId,question,answerA,answerB,answerC,answerD,answer,parsing)values(@qId,@qBId,@question,@answerA,@answerB,@answerC,@answerD,@answer,@parsing)", CON))
@@ -249,6 +261,34 @@ namespace UI
                 {
                     item.Text = string.Empty;
                 }
+            }
+        }
+
+        private void textBox9_MouseHover(object sender, EventArgs e)
+        {
+            //string[] questionArray = textBox9.Text.Split(new char[] { '?' });
+            //for (int i = 0; i < questionArray.Length; i++)
+            //{
+            //    textBox11.Text += questionArray[i].ToString() + "\n";
+            //}
+        }
+
+        private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
+        {
+            //string[] questionArray = textBox9.Text.ToString().Split(new char[] { '?' });
+            //for (int i = 0; i < questionArray.Length; i++)
+            //{
+            //    textBox11.Text += questionArray[i].ToString() + "\n";
+            //}
+        }
+
+        private void textBox9_MouseClick(object sender, MouseEventArgs e)
+        {
+            label1.Text = "";
+            string[] questionArray = textBox9.Text.ToString().Split(new char[] { '?' });
+            for (int i = 0; i < questionArray.Length; i++)
+            {
+                label1.Text += questionArray[i].ToString() + "\n";
             }
         }
         //————————————————
