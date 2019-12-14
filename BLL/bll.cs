@@ -224,6 +224,20 @@ namespace BLL
 
             return answerArray;
         }
+
+        //
+        public static bool readCollection(int qId, int qBId, string SuserEmail)
+        {
+            var istrue = useQuestion.readCollection(qId, qBId, SuserEmail);
+            return istrue;
+        }
+
+
+        //写入当前题是否收藏
+        public static void setCollection(int qId, int qBId, string SuserEmail, bool isCollection)
+        {
+            useQuestion.setCollection(qId, qBId, SuserEmail, isCollection);
+        }
         private static DataSet ds;
         public static DataSet getDataset()
         {

@@ -131,5 +131,10 @@ namespace UI
                 leftFlag = false;//释放鼠标后标注为false;
             }
         }
+
+        private void miN_MAX_EXIT1_Load(object sender, EventArgs e)
+        {
+            miN_MAX_EXIT1.btnMax.Enabled = false;
+        }
     }
 }

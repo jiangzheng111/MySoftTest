@@ -29,9 +29,9 @@ namespace UI
             if (statcEmail == MODEL.TextString.emailSuccessful)
             {
                 btnReg.Text = "返回登录";
-                    formLogin formlogin = new formLogin();
-                    formlogin.Show();
-                    this.Hide();
+                formLogin formlogin = new formLogin();
+                formlogin.Show();
+                this.Hide();
             }
 
             MessageBox.Show(statcEmail, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -148,7 +148,7 @@ namespace UI
 
         private void txtCode_MouseLeave(object sender, EventArgs e)
         {
-            if (txtCode.Text.ToString().Trim()==null&&bll.isEmailcode(txtCode.Text.ToString().Trim()))
+            if (txtCode.Text.ToString().Trim() == null && bll.isEmailcode(txtCode.Text.ToString().Trim()))
             {
                 pictureBox4.Visible = false;
                 pictureBox5.Visible = true;
@@ -158,6 +158,11 @@ namespace UI
                 pictureBox4.Visible = true;
                 pictureBox5.Visible = false;
             }
+        }
+
+        private void miN_MAX_EXIT1_Load(object sender, EventArgs e)
+        {
+            miN_MAX_EXIT1.btnMax.Enabled = false;
         }
     }
 }

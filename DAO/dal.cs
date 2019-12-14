@@ -306,25 +306,26 @@ namespace DAL
 
         public static answerQuestions setAnswerQuestions(int qId, int qBId, string SuserEmail, string myAnswer)
         {
+            Boolean Wrong = false;//用来判断是否是错题
+
             //判断作答的记录是否已经存在
-            Boolean Wrong = false;//标识是否错题
-            //用来判断是否是错题
             using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
             {
                 CON.Open();
-                using (SqlCommand CMD = new SqlCommand("select * from Question where qId=@qId and qBId=@qBId", CON))
+                using (SqlCommand CMD = new SqlCommand("select * from answerquestions where SuserEmail=@SuserEmail and qId=@qId and qBId=@qBId", CON))
                 {
                     CMD.Parameters.AddWithValue("@qId", qId);
                     CMD.Parameters.AddWithValue("@qBId", qBId);
+                    CMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
                     sqlLink.SQLDR = CMD.ExecuteReader();
                     if (sqlLink.SQLDR.Read())
-                    {
+                    {//查询正确的答案
                         //这三条语句表示是否存在记录
                         ANSWERQUESTIONS.qId = int.Parse(sqlLink.SQLDR["qId"].ToString().Trim());
-                        ANSWERQUESTIONS.qBId = int.Parse(sqlLink.SQLDR["qId"].ToString().Trim());
-                        //ANSWERQUESTIONS.SuserEmail = sqlLink.SQLDR["SuserEmail"].ToString().Trim();
+                        ANSWERQUESTIONS.qBId = int.Parse(sqlLink.SQLDR["qBId"].ToString().Trim());
+                        //查询邮箱是否存在
+                        ANSWERQUESTIONS.SuserEmail = sqlLink.SQLDR["SuserEmail"].ToString().Trim();
 
-                        QUESTION.answer = sqlLink.SQLDR["answer"].ToString().Trim();//获取正确答案
                         sqlLink.SQLDR.Close();
                         CON.Close();
                     }
@@ -336,7 +337,7 @@ namespace DAL
                     {
                         Wrong = false;//标识不是错题
                     }
-                    if (ANSWERQUESTIONS.SuserEmail == string.Empty)
+                    if (ANSWERQUESTIONS.SuserEmail == null)
                     {
                         //表示没有这个记录就可以插入
                         using (SqlConnection ThisCON = new SqlConnection(sqlLink.sqlcon()))
@@ -383,7 +384,6 @@ namespace DAL
             }
             return ANSWERQUESTIONS;
         }
-
         #region 重构了读写作答表,重构后的代码在上面
         //写入题号id，题库id，邮箱，错题
         //public static answerQuestions readSetANSWERQUESTIONS(int qId, int qBId, string SuserEmail, string myanswer, bool Wrong, bool collection, bool isRead, bool isExit)
@@ -466,6 +466,113 @@ namespace DAL
         //    return ANSWERQUESTIONS;
         //}
         #endregion
+
+        //获取当前的题是否已经是收藏
+        public static bool readCollection(int qId, int qBId, string SuserEmail)
+        {
+            var istrue = false;
+            using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
+            {
+                CON.Open();
+                using (SqlCommand CMD = new SqlCommand("select * from  answerQuestions   where qId=@qId and qBId=@qBId and SuserEmail=@SuserEmail", CON))
+                {
+                    CMD.Parameters.AddWithValue("@qId", qId);
+                    CMD.Parameters.AddWithValue("@qBId", qBId);
+                    CMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+                    //CMD.Parameters.AddWithValue("@isCollection", isCollection);
+                    sqlLink.SQLDR = CMD.ExecuteReader();
+                    if (sqlLink.SQLDR.Read())
+                    {
+                        if (sqlLink.SQLDR["collection"].ToString().Trim() == 1.ToString())
+                        {
+                            istrue = true;
+                        }
+                        else
+                        {
+                            istrue = false;
+                        }
+                        //=sqlLink.SQLDR["conllection"].ToString().Trim();
+
+                    }
+                    else
+                    {
+                        istrue = false;
+                    }
+                    sqlLink.SQLDR.Close();
+                    CMD.ExecuteNonQuery();
+                    CMD.Dispose();
+                }
+                CON.Close();
+            }
+            return istrue;
+        }
+
+        //根据题号，题库号，邮箱，进行收藏和移除收藏
+        public static void setCollection(int qId, int qBId, string SuserEmail, bool isCollection)
+        {
+            //读取用户当前题是否有记录
+            using (SqlConnection CON = new SqlConnection(sqlLink.sqlcon()))
+            {
+                CON.Open();
+                using (SqlCommand CMD = new SqlCommand("select * from answerQuestions where qId=@qId and qBId=@qBId and SuserEmail=@SuserEmail", CON))
+                {
+
+                    CMD.Parameters.AddWithValue("@qId", qId);
+                    CMD.Parameters.AddWithValue("@qBId", qBId);
+                    CMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+                    //CMD.Parameters.AddWithValue("@isCollection", isCollection);
+                    sqlLink.SQLDR = CMD.ExecuteReader();
+                    if (sqlLink.SQLDR.Read())
+                    {
+                        //怎么返回？返回什么比较好？
+                        ANSWERQUESTIONS.SuserEmail = sqlLink.SQLDR["SuserEmail"].ToString().Trim();
+                    }
+                    else
+                    {
+                        ANSWERQUESTIONS.SuserEmail = null;
+                    }
+                    sqlLink.SQLDR.Close();
+                    CMD.Dispose();
+                    CON.Close();
+                }
+                if (ANSWERQUESTIONS.SuserEmail == null)//判断用户是否存在记录 //不存在记录则插入记录
+                {
+                    using (SqlConnection ThisCON = new SqlConnection(sqlLink.sqlcon()))
+                    {
+                        ThisCON.Open();
+
+                        using (SqlCommand ThisCMD = new SqlCommand("insert answerquestions(qId,qBId,SuserEmail,collection) values (@qId , @qBId ,@SuserEmail,@isCollection )", ThisCON))
+                        {
+                            ThisCMD.Parameters.AddWithValue("@qId", qId);
+                            ThisCMD.Parameters.AddWithValue("@qBId", qBId);
+                            ThisCMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+                            ThisCMD.Parameters.AddWithValue("@isCollection", isCollection);
+                            ThisCMD.ExecuteNonQuery();
+                            ThisCMD.Dispose();
+                        }
+                        ThisCON.Close();
+                    }
+                }
+                else
+                {
+                    //存有记录则修改记录的是否收藏
+                    using (SqlConnection ThisCON = new SqlConnection(sqlLink.sqlcon()))
+                    {
+                        ThisCON.Open();
+                        using (SqlCommand CMD = new SqlCommand("update answerQuestions set collection=@isCollection where qId=@qId and qBId=@qBId and SuserEmail=@SuserEmail", ThisCON))
+                        {
+                            CMD.Parameters.AddWithValue("@qId", qId);
+                            CMD.Parameters.AddWithValue("@qBId", qBId);
+                            CMD.Parameters.AddWithValue("@SuserEmail", SuserEmail);
+                            CMD.Parameters.AddWithValue("@isCollection", isCollection);
+                            CMD.ExecuteNonQuery();
+                            CMD.Dispose();
+                        }
+                        ThisCON.Close();
+                    }
+                }
+            }
+        }
     }
 
     public class DataSource_DataGridView

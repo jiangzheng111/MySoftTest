@@ -38,6 +38,7 @@ namespace 我要软考
         bool collection;    //标识 是否是收藏
         static int Morning = 75;   //上午题目总数
         static int Afternoon = 5;  //下午题总数
+        static int sub = 0;
 
         ArrayList StateList = new ArrayList();//标识该题是否提交过
         ArrayList MyAnswerList = new ArrayList();//标识我作答的答案
@@ -94,6 +95,7 @@ namespace 我要软考
                     label3.Text = BLL.bll.qbdaytype(chenxuyuan_qBId[1]).ToString();
                     break;
             }
+
         }
 
         //控制科目的图片
@@ -234,6 +236,7 @@ namespace 我要软考
                         //numArray[qId] = true.ToString();
                         //StateList[qId - 1] = true.ToString();
                     }
+                    sub++;
                 }
                 //判断是否答对  错
                 else
@@ -698,7 +701,7 @@ namespace 我要软考
 
         private void miN_MAX_EXIT1_Load(object sender, EventArgs e)
         {
-            miN_MAX_EXIT1.btnMax.Enabled = true;
+            miN_MAX_EXIT1.btnMax.Enabled = false;
         }
 
         private void tabPage5_Click(object sender, EventArgs e)
@@ -743,35 +746,52 @@ namespace 我要软考
 
         }
 
-
-        Button[] bnt = new Button[Morning+1];
-        bool isbtn = true;
+        public static int j = 1;
+        Button[] bnt = new Button[10];
+        bool isbtn = true; int ii = 1;
         private void button5_Click(object sender, EventArgs e)
         {
+
+            if (ii == 1)
+            {
+                aa();
+            }
+            try
+            {
+                //为什么只有第一个是金色的？其他是红色的？
+                for (int i = 0; i < Morning; i++)
+                {
+                    j = i;
+                    if (StateList[i].ToString() == true.ToString())
+                    {
+
+                        if (bnt[i].BackColor == Color.Green | bnt[i].BackColor == Color.Red | bnt[i].BackColor == Color.Transparent)
+                        {
+                            //bnt[i].BackColor = Color.Transparent;
+                            bnt[i].BackColor = Color.Blue;
+                            bnt[i].Click += new EventHandler(bntton_Click);
+                        }
+                    }
+                    if (StateList[i].ToString() == false.ToString())
+                    {
+                        bnt[i].BackColor = Color.Transparent;
+                        //bnt[i].BackColor = Color.Honeydew;
+                        bnt[i].Click += new EventHandler(bntton_Click);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                for (int i = j; i < 10; i++)
+                {
+                    bnt[i].BackColor = Color.Transparent;
+                }
+            }
+            ii++;
             if (isbtn)
             {
                 panel7.Visible = true;
                 isbtn = !isbtn;
-                //Morning =
-                //Afternoon
-                for (int i = 0; i < Morning; i++)
-                {
-                    //实例化
-                    bnt[i] = new Button();
-                    //定义控件名称
-                    bnt[i].Name = "bntton_" + (i + 1).ToString();
-                    //定义text属性，可以用string数组初始化为指定值
-                    bnt[i].Text = (i + 1).ToString();
-                    //注：如果不指定父容器，则坐标是相对于主窗体的
-                    bnt[i].Parent = panel7;
-                    //定义坐标
-                    bnt[i ].Location = new Point(20 + (i % 16) * 30, 5 + (i / 16) * 30);
-                    //调整大小
-                    //bnt[i].AutoSize = true;
-                    bnt[i ].Size = new Size(25, 25);
-                    //批量添加事件
-                    bnt[i].Click += new EventHandler(bntton_Click);
-                }
             }
             else
             {
@@ -783,6 +803,44 @@ namespace 我要软考
         {
             MessageBox.Show("点击了 " + ((Button)sender).Name.ToString());
         }
+        public void aa()
+        {
+            panel7.Visible = true;
+            isbtn = !isbtn;
+            //Morning =
+            //Afternoon
+            for (int i = 0; i < 10; i++)
+            {
+                //实例化
+                bnt[i] = new Button();
+                //定义控件名称
+                bnt[i].Name = "bntton_" + (i + 1).ToString();
+                //定义text属性，可以用string数组初始化为指定值
+                bnt[i].Text = (i + 1).ToString();
+                //注：如果不指定父容器，则坐标是相对于主窗体的
+                bnt[i].Parent = panel7;
+                //定义坐标
+                bnt[i].Location = new Point(20 + (i % 16) * 30, 5 + (i / 16) * 30);
+                //调整大小
+                //bnt[i].AutoSize = true;
+                bnt[i].Size = new Size(25, 25);
+                //批量添加事件
+                bnt[i].Click += new EventHandler(bntton_Click);
+            }
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
 
+            DialogResult result = MessageBox.Show("确定提交试卷吗", "标题", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            if (result == DialogResult.OK)
+            {
+                MessageBox.Show("您的成绩" + sub);
+                panel5.Visible = false;
+                comboBox1.Text = string.Empty;
+            }
+            else
+            {
+            }
+        }
     }
 }
