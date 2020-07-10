@@ -37,7 +37,7 @@ namespace myTool
             message.Subject = TextString.subjectInsert + DateTime.Now;
             message.SubjectEncoding = Encoding.UTF8;
             message.Body = TextString.subhead + eMailContent + TextString.time;
-            message.BodyEncoding = Encoding.UTF8;
+            message.BodyEncoding = Encoding.U;
             //设置邮件的信息 如登陆密码 账号
             //邮件发送方式  通过网络发送到smtp服务器
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
